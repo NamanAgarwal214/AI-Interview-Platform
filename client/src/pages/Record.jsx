@@ -1,0 +1,120 @@
+import React, { useEffect } from "react";
+import { useRecordWebcam } from "react-record-webcam";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
+
+const Record = () => {
+  const recordWebcam = useRecordWebcam({
+    fileName: "test",
+    mimeType: "video/x-matroska;codecs=avc1",
+    width: 600,
+    height: 800,
+    disableLogs: true,
+  });
+
+  const handle = useFullScreenHandle();
+
+  //   useEffect(() => {
+  //     if (!handle.active) {
+  //       recordWebcam.stop();
+  //     }
+  //   }, []);
+
+  const getRecordingFile = async () => {
+    const blob = await recordWebcam.getRecording();
+    console.log({ blob });
+  };
+
+  return (
+    <div>
+      <FullScreen handle={handle}>
+        <div>
+          <div>
+            <button
+              disabled={
+                recordWebcam.status === "OPEN" ||
+                recordWebcam.status === "RECORDING" ||
+                recordWebcam.status === "PREVIEW"
+              }
+              onClick={() => {
+                handle.enter();
+                recordWebcam.open();
+              }}
+            >
+              Open camera
+            </button>
+
+            <button
+              disabled={recordWebcam.status === "CLOSED"}
+              onClick={recordWebcam.close}
+            >
+              Close camera
+            </button>
+            <button
+              disabled={
+                recordWebcam.status === "CLOSED" ||
+                recordWebcam.status === "RECORDING" ||
+                recordWebcam.status === "PREVIEW"
+              }
+              onClick={recordWebcam.start}
+            >
+              Start recording
+            </button>
+            <button
+              disabled={recordWebcam.status !== "RECORDING"}
+              onClick={() => {
+                recordWebcam.stop();
+                handle.exit();
+              }}
+            >
+              Stop recording
+            </button>
+            <button
+              disabled={recordWebcam.status !== "PREVIEW"}
+              onClick={recordWebcam.retake}
+            >
+              Retake
+            </button>
+            <button
+              disabled={recordWebcam.status !== "PREVIEW"}
+              onClick={recordWebcam.download}
+            >
+              Download
+            </button>
+            <button
+              disabled={recordWebcam.status !== "PREVIEW"}
+              onClick={getRecordingFile}
+            >
+              Get recording
+            </button>
+          </div>
+          <video
+            ref={recordWebcam.webcamRef}
+            style={{
+              display: `${
+                recordWebcam.status === "OPEN" ||
+                recordWebcam.status === "RECORDING"
+                  ? "block"
+                  : "none"
+              }`,
+            }}
+            autoPlay
+            muted
+          />
+          <video
+            ref={recordWebcam.previewRef}
+            style={{
+              display: `${
+                recordWebcam.status === "PREVIEW" ? "block" : "none"
+              }`,
+            }}
+            autoPlay
+            loop
+            muted={recordWebcam.status !== "PREVIEW"}
+          />
+        </div>
+      </FullScreen>
+    </div>
+  );
+};
+
+export default Record;
