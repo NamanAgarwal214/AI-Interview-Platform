@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Login.css";
+import { useParams } from "react-router-dom";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { whoIsIt } = useParams();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // if whoIsIt is candidate - candidate axios req
+    // if whoIsIt is company - company axios req
   };
 
   useEffect(() => {
