@@ -19,6 +19,10 @@ const JobSchema = new Schema({
     questions:[{
         type:mongoose.Schema.Types.ObjectId,
         req:"Question"
+    }],
+    applicants:[{
+        type:mongoose.Schema.Types.ObjectId,
+        req:"Applicant"
     }]
 },{
     timestamps: true
