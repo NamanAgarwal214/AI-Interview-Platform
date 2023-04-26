@@ -1,7 +1,8 @@
 const router = require('express').Router();
 const jobController = require('../controllers/jobController');
-const auth = require('../controllers/companyController');
+const companyController = require('../controllers/companyController');
 
-router.post("/create",jobController.createJob);
+router.post("/create",companyController.authPass,jobController.createJob);
+router.post("/addApplicants",companyController.authPass,jobController.addApplicants);
 
 module.exports = router
