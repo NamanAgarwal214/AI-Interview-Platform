@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import "../styles/Register.css";
+import "../styles/CompanyRegister.css";
 import One from "./One";
 import Two from "./Two";
 import Final from "./Final";
 import Preview from "./Preview";
+import CompanyRegisterLeft from "./CompanyRegisterLeft";
+import CompanyRegisterRight from "./CompanyRegisterRight";
 
 const CompanyRegister = () => {
   const [formData, setFormData] = useState({
@@ -59,53 +61,58 @@ const CompanyRegister = () => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
-
+  return (
+    <div className="company-register-multistep">
+      <CompanyRegisterLeft />
+      <CompanyRegisterRight />
+    </div>
+  );
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   console.log(formData);
   // };
 
-  switch (step) {
-    case 1:
-      return (
-        <One
-          nextStep={nextStep}
-          formData={formData}
-          changeHandler={changeHandler}
-        />
-      );
-      break;
-    case 2:
-      return (
-        <Two
-          prevStep={prevStep}
-          nextStep={nextStep}
-          formData={formData}
-          changeHandler={changeHandler}
-        />
-      );
-      break;
-    case 3:
-      return (
-        <Final
-          prevStep={prevStep}
-          logoPreview={logoPreview}
-          certificatePreview={certificatePreview}
-          changeHandler={changeHandler}
-          nextStep={nextStep}
-          formData={formData}
-        />
-      );
-    case 4:
-      return (
-        <Preview
-          prevStep={prevStep}
-          logo={logo}
-          certificate={certificate}
-          formData={formData}
-        />
-      );
-  }
+  // switch (step) {
+  //   case 1:
+  //     return (
+  //       <One
+  //         nextStep={nextStep}
+  //         formData={formData}
+  //         changeHandler={changeHandler}
+  //       />
+  //     );
+  //     break;
+  //   case 2:
+  //     return (
+  //       <Two
+  //         prevStep={prevStep}
+  //         nextStep={nextStep}
+  //         formData={formData}
+  //         changeHandler={changeHandler}
+  //       />
+  //     );
+  //     break;
+  //   case 3:
+  //     return (
+  //       <Final
+  //         prevStep={prevStep}
+  //         logoPreview={logoPreview}
+  //         certificatePreview={certificatePreview}
+  //         changeHandler={changeHandler}
+  //         nextStep={nextStep}
+  //         formData={formData}
+  //       />
+  //     );
+  //   case 4:
+  //     return (
+  //       <Preview
+  //         prevStep={prevStep}
+  //         logo={logo}
+  //         certificate={certificate}
+  //         formData={formData}
+  //       />
+  //     );
+  // }
 };
 
 export default CompanyRegister;
