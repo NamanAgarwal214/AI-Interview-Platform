@@ -3,27 +3,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const sendEmail = require("../utils/email");
 const { uploadFile, getSignUrlForFile } = require("../utils/s3");
-
-const signToken = (data) => {
-  return jwt.sign(data, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-};
-
-const createSendToken = (user, statusCode, res) => {
-  const { id } = user;
-  const data = {
-    id,
-  };
-  const token = signToken(data);
-
-  return res.status(statusCode).json({
-    status: "success",
-    message: "Logged in successfully",
-    token,
-    user,
-  });
-};
+const { createSendToken } = require("../utils/auth");
 
 exports.registerCompany = async (req, res, next) => {
   try {
@@ -35,30 +15,38 @@ exports.registerCompany = async (req, res, next) => {
       });
     }
     let newCompany;
+    if (req.body.certificate && req.body.logo) {
+      const base64StringLogo = req.body.logo.replace(
+        /^data:image\/\w+;base64,/,
+        ""
+      );
+      const base64StringCerti = req.body.certificate.replace(
+        /^data:image\/\w+;base64,/,
+        ""
+      );
 
-    const base64StringLogo = req.body.logo.replace(
-      /^data:image\/\w+;base64,/,
-      ""
-    );
-    const base64StringCerti = req.body.certificate.replace(
-      /^data:image\/\w+;base64,/,
-      ""
-    );
+      const buffLogo = Buffer.from(base64StringLogo, "base64");
+      const buffCerti = Buffer.from(base64StringCerti, "base64");
 
-    const buffLogo = new Buffer(base64StringLogo, "base64");
-    const buffCerti = new Buffer(base64StringCerti, "base64");
+      const file_name_logo = `/${req.body.name}/${Date.now()}_companyLogo_${
+        req.body.name
+      }`;
+      const file_name_certi = `/${req.body.name}/${Date.now()}_companyCerti_${
+        req.body.name
+      }`;
 
-    const file_name_logo = `${Date.now()}_companyLogo_${req.body.name}`;
-    const file_name_certi = `${Date.now()}_companyCerti_${req.body.name}`;
+      const file_type_logo = req.body.file_type_logo;
+      const file_type_certi = req.body.file_type_certi;
 
-    await uploadFile(buffLogo, file_name_logo);
+      await uploadFile(buffLogo, file_name_logo, file_type_logo);
 
-    await uploadFile(buffCerti, file_name_certi);
+      await uploadFile(buffCerti, file_name_certi, file_type_certi);
 
-    console.log(getSignUrlForFile(file_name_logo));
+      console.log(getSignUrlForFile(file_name_logo));
 
-    req.body.companyLogo = file_name_logo;
-    req.body.companyCertificate = file_name_certi;
+      req.body.companyLogo = file_name_logo;
+      req.body.companyCertificate = file_name_certi;
+    }
     req.body.verifyCode = Math.floor(Math.random() * 9000 + 1000);
 
     newCompany = await Company.create(req.body);

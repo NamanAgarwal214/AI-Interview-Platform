@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const uploadFile = (file, keyName) => {
+const uploadFile = (file, keyName, file_type) => {
 
     return new Promise((resolve, reject) => {
         try {
@@ -14,7 +14,7 @@ const uploadFile = (file, keyName) => {
                 Bucket: 'intellihire',
                 Key: keyName,
                 Body: file,
-                ContentType: "image/jpeg",
+                ContentType: file_type,
             };
 
             s3.upload(uploadParams, function (err, data) {
@@ -65,5 +65,40 @@ const getSignUrlForFile = (key) => {
         }
     });
 }
+const downloadVideo = (key) => {
+    return new Promise((resolve, reject) => {
+        try {
 
-module.exports = { uploadFile, getSignUrlForFile }
+            const path = require('path');
+            const fs = require("fs")
+
+            const s3 = new AWS.S3({
+                accessKeyId: process.env.S3_ACCESS_KEY,
+                secretAccessKey: process.env.S3_SECRET_ACCESS,
+                region: "us-east-1"
+            });
+
+            const params = {
+                Bucket: 'intellihire', 
+                Key: key
+              };
+
+            const readStream = s3.getObject(params).createReadStream();
+            const writeStream = fs.createWriteStream(path.join('temp', 'down.mp4'));
+            readStream.pipe(writeStream);
+
+            if(writeStream){
+                return resolve({
+                    writeStream
+                })
+            }else{
+                return reject("Error")
+            }
+
+        } catch (err) {
+            return reject("Cannot create signed URL!");
+        }
+    });
+}
+
+module.exports = { uploadFile, getSignUrlForFile,downloadVideo }
