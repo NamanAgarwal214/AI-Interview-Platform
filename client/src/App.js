@@ -1,7 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./pages/Login";
-import SignIn from "./pages/SignIn";
 import LandingPage from "./pages/LandingPage.jsx";
 import Register from "./pages/Register";
 import ContactUs from "./pages/ContactUs";
@@ -31,8 +29,7 @@ function App() {
       <Routes>
         <Route exact index path="/" element={<LandingPage />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/login" element={<LoginPage />} />
-        <Route exact path="/login/:whoIsIt" element={<Login />} />
+        <Route exact path="/login/:whoIsIt" element={<LoginPage />} />
         <Route exact path="/contact" element={<ContactUs />} />
         <Route exact path="/addJob" element={<CreateJob />} />
       </Routes>
