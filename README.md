@@ -14,6 +14,14 @@
 
 - Company registration
 
+## Admin Dashboard
+
+- name, logo, address, country, certificate
+- Profile page
+- Job page
+- Applicants data page
+- Video responses page for each applicant
+
 ## Company side register
 
 - email

@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/LoginNew.css";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
+  const { whoIsIt } = useParams();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.info("Please fill out all fields");
+    } else {
+      const data = new FormData();
+      data.append("email", email);
+      data.append("password", password);
+      try {
+        setEmail("");
+        setPassword("");
+        axios
+          .post(`/${whoIsIt}/login`, data, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            localStorage.setItem("token", res.data.token);
+            toast.success(res.data.message);
+          });
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
   return (
     <div className="login-page">
       <div className="login-page-image">
@@ -24,28 +60,38 @@ const LoginPage = () => {
                 <input
                   type="text"
                   className="field-input"
-                  name="name"
-                  placeholder="Email"
+                  name="email"
+                  value={email}
+                  placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="input-box">
                 <div className="field-label"> Password </div>
                 <input
-                  type="text"
+                  type="password"
                   className="field-input"
-                  name="name"
+                  name="password"
+                  value={password}
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
             <div className="login-footer">
               <div className="login-button">
-                <button className="button">Login</button>
+                <button className="button" onClick={handleSubmit}>
+                  Login
+                </button>
               </div>
-              <div className="sign-up-message">
-                <div className="msg-left"> Don't have an account yet?</div>
-                <div className="sign-up"> Sign Up </div>
-              </div>
+              {whoIsIt === "company" && (
+                <div className="sign-up-message">
+                  <div className="msg-left"> Don't have an account yet?</div>
+                  <Link to={"/register"} style={{ textDecoration: "none" }}>
+                    <div className="sign-up"> Sign Up </div>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
