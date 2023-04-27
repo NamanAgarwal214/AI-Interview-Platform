@@ -7,15 +7,24 @@
 - Record Component added, css to be done
 - Rough Navbar added
 - Rough Login added
+- Admin Dashboard
+- Candidate Dashboard
 
-## Company side input
+## DONE
+
+- Company registration
+
+## Company side register
 
 - email
 - name
 - password
 - address
+- country
+- logo
+- certificate
 
-## Candidate side input
+## Company and Candidate side login
 
-- userid
+- email
 - password

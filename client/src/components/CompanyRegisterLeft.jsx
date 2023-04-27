@@ -1,13 +1,13 @@
 import React from "react";
 import "../styles/CompanyRegister.css";
 
-const CompanyRegisterLeft = () => {
+const CompanyRegisterLeft = ({ step }) => {
   return (
     <div className="company-register-steps-side">
       <div className="logo">Logo</div>
       <div className="steps-box">
         <div className="company-register-steps">
-          <div className="step-name-heading">Step 1</div>
+          <div className="step-name-heading">Step {step}</div>
           <div className="step-info">
             {" "}
             Enter the information about your company to get more familiar

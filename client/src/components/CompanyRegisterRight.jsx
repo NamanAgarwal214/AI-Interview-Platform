@@ -1,69 +1,99 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/CompanyRegister.css";
+import One from "./One";
+import Two from "./Two";
+import Final from "./Final";
+import Preview from "./Preview";
 
-const CompanyRegisterRight = () => {
-  return (
-    <div className="company-register-info-side">
-      <div className="company-register-info-box">
-        <div className="company-register-info-icon"></div>
-        <div className="company-register-info">
-          <div className="company-step-info">
-            <div className="company-step-name"> Your Company Information</div>
-            <div className="company-step-description">
-              {" "}
-              Enter your company information to get familiar with you.{" "}
-            </div>
-          </div>
-          <div className="company-step-input">
-            <div className="company-step-input-box">
-              <div className="field-label"> Company Name </div>
-              <input
-                type="text"
-                className="field-input"
-                name="name"
-                placeholder="Name of the company"
-              />
-            </div>
-            <div className="company-step-input-box">
-              <div className="field-label"> Email </div>
-              <input
-                type="email"
-                className="field-input"
-                name="name"
-                placeholder="Official email address of the company"
-              />
-            </div>
-            <div className="company-step-input-box">
-              <div className="field-label"> Password </div>
-              <input
-                type="text"
-                className="field-input"
-                name="name"
-                placeholder="Create a password"
-              />
-            </div>
-            <div className="company-step-input-box">
-              <div className="field-label"> Confirm Password </div>
-              <input
-                type="text"
-                className="field-input"
-                name="name"
-                placeholder="Confirm your password"
-              />
-            </div>
-          </div>
-          <div className="buttons">
-            <button className="back-button" type="back">
-              Back
-            </button>
-            <button className="next-button" type="next">
-              Next Step
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+const CompanyRegisterRight = ({ step, setStep }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    country: "",
+    address: "",
+  });
+
+  const [logo, setLogo] = useState("");
+  const [fileTypeLogo, setFileTypeLogo] = useState("");
+  const [fileTypeCerti, setFileTypeCerti] = useState("");
+
+  const [certificate, setCertificate] = useState("");
+
+  const nextStep = () => {
+    setStep(step + 1);
+  };
+
+  const prevStep = () => {
+    setStep(step - 1);
+  };
+
+  const changeHandler = (e) => {
+    if (e.target.name === "logo") {
+      const reader = new FileReader();
+      console.log(e.target.files[0]);
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setLogo(reader.result);
+        }
+      };
+      setFileTypeLogo(e.target.files[0].type);
+      reader.readAsDataURL(e.target.files[0]);
+    } else if (e.target.name === "certificate") {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setCertificate(reader.result);
+        }
+      };
+      setFileTypeCerti(e.target.files[0].type);
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
+
+  switch (step) {
+    case 1:
+      return (
+        <One
+          nextStep={nextStep}
+          formData={formData}
+          changeHandler={changeHandler}
+        />
+      );
+    case 2:
+      return (
+        <Two
+          prevStep={prevStep}
+          nextStep={nextStep}
+          formData={formData}
+          changeHandler={changeHandler}
+        />
+      );
+    case 3:
+      return (
+        <Final
+          prevStep={prevStep}
+          logo={logo}
+          certificate={certificate}
+          changeHandler={changeHandler}
+          nextStep={nextStep}
+          formData={formData}
+        />
+      );
+    case 4:
+      return (
+        <Preview
+          prevStep={prevStep}
+          logo={logo}
+          certificate={certificate}
+          fileTypeLogo={fileTypeLogo}
+          fileTypeCerti={fileTypeCerti}
+          formData={formData}
+        />
+      );
+  }
 };
 
 export default CompanyRegisterRight;
