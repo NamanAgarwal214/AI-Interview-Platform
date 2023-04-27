@@ -1,0 +1,255 @@
+.company-register-multistep {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+/* Left side */
+.company-register-steps-side {
+  display: flex;
+  padding: 40px;
+  flex-direction: column;
+  background-color: #212a3e;
+  flex: 25%;
+}
+.logo {
+  display: flex;
+  flex: 10%;
+  color: #f1f6f9;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.steps-box {
+  display: flex;
+  flex: 90%;
+  justify-content: center;
+  flex-direction: column;
+}
+.company-register-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.step-name-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f1f6f9;
+}
+.step-info {
+  font-size: 1rem;
+  font-weight: 400px;
+  color: #f1f6f9;
+}
+.steps-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.step {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.step-number {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  flex-direction: column;
+  text-align: center;
+  border: 2px solid #f1f6f9;
+  color: #f1f6f9;
+}
+.step-name {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 400px;
+  color: #f1f6f9;
+}
+.step-separator-box {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.step-separator-outside {
+  display: flex;
+  justify-content: center;
+  width: 34px;
+}
+.step-separator {
+  display: flex;
+  height: 40px;
+  width: 0px;
+  border-left: 1px dotted #f1f6f9;
+}
+/* Right Side*/
+.company-register-info-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 75%;
+  background-color: #f1f6f9;
+  padding: 50px;
+}
+.company-register-info-box {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.company-register-info-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #083aa9;
+  border-radius: 100%;
+}
+.company-register-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.company-step-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.company-step-name {
+  display: flex;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.company-step-description {
+  display: flex;
+  font-size: 1.1rem;
+  color: grey;
+}
+
+.company-step-input {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.company-step-input-box {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  width: 40%;
+  gap: 10px;
+}
+.field-label {
+  display: flex;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #567191;
+}
+.field-input {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  background: #f1f6f9;
+  border: 2px solid #dadce0;
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-weight: 400;
+  font-size: 1.1rem;
+  line-height: 19px;
+  outline: none;
+}
+.field-input:focus {
+  border: 2px solid #083aa9;
+  box-shadow: 0px 5px 10px rgb(8, 58, 169, 0.1);
+}
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+.back-button {
+  text-align: center;
+  color: #567191;
+  padding: 10px;
+  font-size: 1rem;
+  width: 15%;
+  height: 50px;
+  font-weight: 700;
+  background-color: #f1f6f9;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.back-button:hover {
+  color: #567191;
+  background-color: #fff;
+}
+.next-button {
+  text-align: center;
+  color: #f1f6f9;
+  width: 15%;
+  height: 50px;
+  background-color: #083aa9;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.next-button:hover {
+  color: white;
+  background-color: #002e94;
+}
+
+/*  */
+
+.cover {
+  height: 320px;
+  position: relative;
+}
+
+.cert {
+  min-width: 100%;
+  width: auto;
+  min-height: 100%;
+  height: auto;
+}
+
+.certi {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border: 3px solid #212a3e;
+}
+
+.log {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 150px;
+  border: 3px solid #212a3e;
+}
+
+.file-input {
+  position: absolute;
+  height: 30px;
+  cursor: pointer;
+  top: 150px;
+  left: 10px;
+  opacity: 0;
+}
+
+.logo-input {
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  bottom: 70px;
+  width: 100px;
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0;
+}

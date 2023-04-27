@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
+// import { HashLink } from "react-router-hash-link";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
@@ -19,19 +19,19 @@ const Navbar = () => {
       <div className="navbar__links">
         <ul>
           <li>
-            <HashLink smooth to="/#home">
+            <Link smooth to="/">
               Home
-            </HashLink>
+            </Link>
           </li>
           <li>
-            <HashLink smooth to="/#about">
+            <Link smooth to="/about">
               About Us
-            </HashLink>
+            </Link>
           </li>
           <li>
-            <HashLink smooth to="/#contact">
+            <Link smooth to="/contact">
               Contact Us
-            </HashLink>
+            </Link>
           </li>
           <li>
             <Link to="/login">Login</Link>
@@ -62,31 +62,19 @@ const Navbar = () => {
         <div className="navbar__mobile-side-nav-container">
           <ul>
             <li>
-              <HashLink
-                smooth
-                to="/#home"
-                onClick={() => setShowMenu(!showMenu)}
-              >
+              <Link smooth to="/" onClick={() => setShowMenu(!showMenu)}>
                 Home
-              </HashLink>
+              </Link>
             </li>
             <li>
-              <HashLink
-                smooth
-                to="/#about"
-                onClick={() => setShowMenu(!showMenu)}
-              >
+              <Link smooth to="/about" onClick={() => setShowMenu(!showMenu)}>
                 About Us
-              </HashLink>
+              </Link>
             </li>
             <li>
-              <HashLink
-                smooth
-                to="/#contact"
-                onClick={() => setShowMenu(!showMenu)}
-              >
+              <Link smooth to="/contact" onClick={() => setShowMenu(!showMenu)}>
                 Contact Us
-              </HashLink>
+              </Link>
             </li>
           </ul>
         </div>
