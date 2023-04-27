@@ -179,7 +179,7 @@
   cursor: pointer;
 }
 .back-button:hover {
-  color: darkgrey;
+  color: #567191;
   background-color: #fff;
 }
 .next-button {
@@ -198,4 +198,58 @@
 .next-button:hover {
   color: white;
   background-color: #002e94;
+}
+
+/*  */
+
+.cover {
+  height: 320px;
+  position: relative;
+}
+
+.cert {
+  min-width: 100%;
+  width: auto;
+  min-height: 100%;
+  height: auto;
+}
+
+.certi {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border: 3px solid #212a3e;
+}
+
+.log {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 150px;
+  border: 3px solid #212a3e;
+}
+
+.file-input {
+  position: absolute;
+  height: 30px;
+  cursor: pointer;
+  top: 150px;
+  left: 10px;
+  opacity: 0;
+}
+
+.logo-input {
+  display: flex;
+  position: relative;
+  margin: 0 auto;
+  bottom: 70px;
+  width: 100px;
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0;
 }

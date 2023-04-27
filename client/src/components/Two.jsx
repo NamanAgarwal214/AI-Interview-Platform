@@ -1,56 +1,71 @@
 import React from "react";
-import Navbar from "./Navbar";
+import { toast } from "react-toastify";
 
 const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
+  const { address, country } = formData;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    nextStep();
+    if (!address || !country) {
+      toast.error("Please fill out all fields");
+    } else {
+      toast.success("On to the next one to upload some documents!");
+      setTimeout(() => {
+        nextStep();
+      }, 2000);
+    }
+    // nextStep();
   };
+
   return (
-    <>
-      <Navbar />
-      <div className="company-registration">
-        <h2 className="heading">Company Registration</h2>
-        <form
-          className="registration-body"
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <div className="company-registration-form">
-            <div className="input-field">
-              <img src={""} alt="address" />
+    <div className="company-register-info-side">
+      <div className="company-register-info-box">
+        <div className="company-register-info-icon"></div>
+        <div className="company-register-info">
+          <div className="company-step-info">
+            <div className="company-step-name"> Your Company Information</div>
+            <div className="company-step-description">
+              {" "}
+              Enter your company information to get familiar with you.{" "}
+            </div>
+          </div>
+          <div className="company-step-input">
+            <div className="company-step-input-box">
+              <div className="field-label"> Address of the Company </div>
               <input
                 name="address"
-                value={formData.address}
+                value={address}
+                className="field-input"
                 onChange={changeHandler}
                 type="text"
                 placeholder="Address of Company Headquarters"
               />
             </div>
-            <div className="input-field">
-              <img src={""} alt="country" />
+            <div className="company-step-input-box">
+              <div className="field-label"> Country </div>
               <input
                 name="country"
-                value={formData.country}
+                value={country}
+                className="field-input"
                 onChange={changeHandler}
                 type="text"
                 placeholder="Country"
               />
             </div>
           </div>
-          <div className="btn-field">
-            <button className="register-button" onClick={prevStep}>
-              Previous
+          <div className="buttons">
+            <button className="back-button" type="back" onClick={prevStep}>
+              Back
+            </button>
+
+            <button className="next-button" type="next" onClick={handleSubmit}>
+              Next Step
             </button>
           </div>
-          <div className="btn-field">
-            <button className="register-button">Continue</button>
-          </div>
-        </form>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
