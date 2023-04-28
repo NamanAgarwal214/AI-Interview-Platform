@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "./Navbar";
 import { toast } from "react-toastify";
 
 const Final = ({ logo, certificate, changeHandler, nextStep, prevStep }) => {
