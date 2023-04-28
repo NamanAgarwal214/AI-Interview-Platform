@@ -53,7 +53,7 @@ const JobFormTwo = ({
 
     const { title, description, duration } = formData;
 
-    if (applicants.length() == 0 || questions.length() == 0) {
+    if (applicants.length() === 0 || questions.length() === 0) {
       toast.error("Upload file with some data");
     } else {
       const data = new FormData();
