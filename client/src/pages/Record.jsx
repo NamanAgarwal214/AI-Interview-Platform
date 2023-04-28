@@ -21,7 +21,14 @@ const Record = () => {
 
   const getRecordingFile = async () => {
     const blob = await recordWebcam.getRecording();
-    console.log({ blob });
+    console.log(blob);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const dataURL = reader.result;
+      console.log(dataURL);
+      // use the data URL to display or upload the video
+    };
   };
 
   return (
