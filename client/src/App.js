@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import CompanyPage from "./pages/CompanyPage";
 
 function App() {
   axios.defaults.baseURL =
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/login/:whoIsIt" element={<LoginPage />} />
         <Route exact path="/contact" element={<ContactUs />} />
         <Route exact path="/addJob" element={<CreateJob />} />
+        <Route exact path="/dashboard" element={<CompanyPage />} />
       </Routes>
     </>
   );

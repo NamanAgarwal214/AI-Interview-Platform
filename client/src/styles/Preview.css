@@ -1,0 +1,173 @@
+.visible-area {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2px;
+  padding: 20px 30px;
+  overflow-y: scroll;
+}
+.company-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  width: 100%;
+}
+.heading-box {
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  display: flex;
+  color: black;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.about-heading {
+  display: flex;
+  color: #8193a8;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.divider {
+  display: flex;
+  width: 100%;
+  border-top: 2px solid rgb(86, 113, 145, 0.5);
+}
+.image {
+  position: relative;
+  margin-right: 20px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+.image img {
+  width: 100px;
+  height: 100px;
+}
+.fileLabel {
+  cursor: pointer;
+  z-index: 10;
+  background: linear-gradient(
+    106.52deg,
+    rgba(166, 135, 233, 0.4) -11.57%,
+    rgba(135, 151, 233, 0.4) 50.39%,
+    rgba(82, 162, 235, 0.4) 116.35%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.image:hover .fileLabel {
+  display: flex;
+}
+.field-box {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+}
+.field-left {
+  display: flex;
+  flex-direction: column;
+  flex: 30%;
+}
+.field {
+  display: flex;
+  color: #567191;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.field-detail {
+  display: flex;
+  color: #8193a8;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+.field-right {
+  display: flex;
+  flex: 60%;
+}
+.field-input-preview {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  width: 40%;
+  background: #f1f6f9;
+  border: 2px solid #dadce0;
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 19px;
+  outline: none;
+}
+.certificate-image {
+  position: relative;
+  margin-right: 20px;
+  width: 230px;
+  height: 300px;
+  overflow: hidden;
+  border: 1px solid #8193a8;
+}
+.certificate-image img {
+  width: 230px;
+  height: 300px;
+}
+
+.fileLabelCerti {
+  cursor: pointer;
+  z-index: 10;
+  background: linear-gradient(
+    106.52deg,
+    rgba(10, 3, 24, 0.581) -11.57%,
+    rgba(9, 10, 17, 0.4) 50.39%,
+    rgba(1, 2, 2, 0.4) 116.35%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.certificate-image:hover .fileLabelCerti {
+  display: flex;
+}
+.preview-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.preview-buttons button {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-content: center;
+  color: #f1f6f9;
+  width: 20%;
+  height: 50px;
+  background-color: #083aa9;
+  padding: auto;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.preview-buttons button div {
+  display: flex;
+  align-self: center;
+}
+.preview-buttons button:hover {
+  color: white;
+  background-color: #002e94;
+}

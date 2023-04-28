@@ -1,18 +1,6 @@
 import React, { useRef } from "react";
-import "../styles/Preview.css";
-import Navbar from "./Navbar";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
-
-const Preview = ({
-  formData,
-  logo,
-  certificate,
-  prevStep,
-  fileTypeLogo,
-  fileTypeCerti,
-}) => {
+import "../styles/CompanyProfile.css";
+const CompanyProfile = () => {
   const imgRef = useRef(false);
   const certificateRef = useRef(false);
 
@@ -32,41 +20,11 @@ const Preview = ({
     }
     e.target.value = null;
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // const response = await axios();
-    console.log(fileTypeLogo);
-    const { name, email, password, address, country } = formData;
-    const data = new FormData();
-    data.append("name", name);
-    data.append("email", email);
-    data.append("address", address);
-    data.append("password", password);
-    data.append("country", country);
-    data.append("logo", logo);
-    data.append("certificate", certificate);
-    data.append("file_type_logo", fileTypeLogo);
-    data.append("file_type_certi", fileTypeCerti);
-
-    axios
-      .post("/company/register", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        toast.success(res.data.message);
-        // <Navigate to={"/verify"} />;
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });
-  };
   return (
     <div className="visible-area">
-      <div className="company-preview">
+      <div className="company-profile">
         <div className="heading-box">
-          <div className="heading">Profile Preview</div>
+          <div className="heading">Company profile</div>
           <div className="about-heading">
             Update your company photo and details here.
           </div>
@@ -79,14 +37,14 @@ const Preview = ({
           </div>
           <div className="field-right">
             <div className="image">
-              <img src={logo} alt="" ref={imgRef} />
+              <img src="" alt="" ref={imgRef} />
               <input
                 type="file"
                 id="profile-picture"
                 hidden
-                disabled
                 onChange={handleImageChange}
               />
+              <label className="fileLabel" htmlFor="profile-picture"></label>
             </div>
           </div>
         </div>
@@ -101,10 +59,8 @@ const Preview = ({
           <div className="field-right">
             <input
               type="text"
-              readOnly
-              value={formData.email}
-              className="field-input-preview"
-              name="name"
+              className="field-input-profile"
+              name="email"
               placeholder="Name of the company"
             />
           </div>
@@ -120,9 +76,7 @@ const Preview = ({
           <div className="field-right">
             <input
               type="text"
-              readOnly
-              value={formData.address}
-              className="field-input-preview"
+              className="field-input-profile"
               name="address"
               placeholder="Address of the company"
             />
@@ -137,9 +91,7 @@ const Preview = ({
           <div className="field-right">
             <input
               type="text"
-              readOnly
-              value={formData.email}
-              className="field-input-preview"
+              className="field-input-profile"
               name="email"
               placeholder="Email of the company"
             />
@@ -155,37 +107,24 @@ const Preview = ({
           </div>
           <div className="field-right">
             <div className="certificate-image">
-              <img src={certificate} alt="" ref={certificateRef} />
+              <img src="" alt="" ref={certificateRef} />
               <input
                 type="file"
-                disabled
                 id="certificate"
                 hidden
                 onChange={handleCertificateChange}
               />
+              <label className="fileLabelCerti" htmlFor="certificate"></label>
             </div>
           </div>
         </div>
         <div className="divider"></div>
-        <div className="preview-buttons">
-          <button
-            className="edit-button"
-            type="verifybutton"
-            onClick={prevStep}
-          >
-            <div>Edit</div>
-          </button>
-          <button
-            className="register-button"
-            type="verifybutton"
-            onClick={handleSubmit}
-          >
-            <div>Register</div>
-          </button>
-        </div>
+        <button className="verification-button" type="verifybutton">
+          <div>Verify</div>
+        </button>
       </div>
     </div>
   );
 };
 
-export default Preview;
+export default CompanyProfile;

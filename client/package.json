@@ -12,6 +12,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-full-screen": "^1.1.1",
+    "react-pro-sidebar": "^1.0.0",
     "react-record-webcam": "^0.0.18",
     "react-router-dom": "^6.10.0",
     "react-router-hash-link": "^2.4.3",
