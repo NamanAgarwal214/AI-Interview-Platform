@@ -1,0 +1,156 @@
+.start-test-page {
+  display: flex;
+  width: 100%;
+}
+/* Left side of start Test page */
+.start-test-left {
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf9ff;
+  flex: 70%;
+  padding: 5% 5%;
+  gap: 30px;
+  overflow-y: scroll;
+}
+.start-test-left::-webkit-scrollbar {
+  display: none;
+}
+.test-job-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.job-type {
+  font-size: 2rem;
+  font-weight: 700;
+  color: black;
+}
+.about-job-card {
+  background-color: #fff;
+  display: flex;
+  flex: 100%;
+  padding: 20px;
+  justify-content: space-between;
+  border-radius: 30px;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+.about-job-info {
+  display: flex;
+  flex-direction: column;
+  flex: 60%;
+  gap: 20px;
+}
+.heading-about-job {
+  color: #394759;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.job-description {
+  font-size: 1.1rem;
+  color: #567191;
+}
+.company-logo-box {
+  display: flex;
+  justify-content: center;
+  flex: 30%;
+}
+.company-logo-test {
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+}
+.company-logo-test img {
+  display: flex;
+  align-self: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.test-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.test-activity-heading {
+  color: rgb(57, 71, 89, 1.5);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.test-activity-card {
+  background-color: #fff;
+  display: flex;
+  padding: 20px;
+  border-radius: 20px;
+}
+.activity-box {
+  display: flex;
+  width: 100%;
+  padding: 15px;
+  gap: 10px;
+}
+.question-icon {
+  display: flex;
+  flex: 30%;
+}
+.activity-info {
+  display: flex;
+  flex: 60%;
+  flex-direction: column;
+}
+.activity-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #8193a8;
+}
+.activity-name-info {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #394759;
+}
+.attempted-icon {
+  display: flex;
+  flex: 30%;
+}
+.deadline-icon {
+  display: flex;
+  flex: 30%;
+}
+.start-test-box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.start-test-button {
+  text-align: center;
+  color: #f1f6f9;
+  width: 20%;
+  height: 50px;
+  background-color: #083aa9;
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.start-test-button:hover {
+  color: white;
+  background-color: #002e94;
+}
+
+/* Start Test right portion */
+
+.start-test-right {
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf9ff;
+
+  justify-content: center;
+  flex: 30%;
+}
+.image-upper {
+  display: flex;
+  align-self: center;
+  width: 50%;
+  height: 40%;
+}
