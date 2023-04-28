@@ -36,3 +36,10 @@
 
 - email
 - password
+
+## routes required
+
+- get company details
+- get applicants details
+- get applicants data - for admin
+- get questions/answers data - for admin

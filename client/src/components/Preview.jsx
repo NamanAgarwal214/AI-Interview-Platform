@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
+import React from "react";
 import "../styles/Preview.css";
-import Navbar from "./Navbar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate } from "react-router-dom";
@@ -13,25 +12,6 @@ const Preview = ({
   fileTypeLogo,
   fileTypeCerti,
 }) => {
-  const imgRef = useRef(false);
-  const certificateRef = useRef(false);
-
-  const handleImageChange = (e) => {
-    const [file] = e.target.files;
-    if (file) {
-      // to update the image displayed in the modal
-      imgRef.current.src = URL.createObjectURL(file);
-    }
-    e.target.value = null;
-  };
-  const handleCertificateChange = (e) => {
-    const [file] = e.target.files;
-    if (file) {
-      // to update the image displayed in the modal
-      certificateRef.current.src = URL.createObjectURL(file);
-    }
-    e.target.value = null;
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     // const response = await axios();
@@ -56,7 +36,7 @@ const Preview = ({
       })
       .then((res) => {
         toast.success(res.data.message);
-        // <Navigate to={"/verify"} />;
+        <Navigate to={"/dashboard"} />;
       })
       .catch((err) => {
         toast.error(err.message);
@@ -79,14 +59,8 @@ const Preview = ({
           </div>
           <div className="field-right">
             <div className="image">
-              <img src={logo} alt="" ref={imgRef} />
-              <input
-                type="file"
-                id="profile-picture"
-                hidden
-                disabled
-                onChange={handleImageChange}
-              />
+              <img src={logo} alt="" />
+              <input type="file" id="profile-picture" hidden disabled />
             </div>
           </div>
         </div>
@@ -155,14 +129,8 @@ const Preview = ({
           </div>
           <div className="field-right">
             <div className="certificate-image">
-              <img src={certificate} alt="" ref={certificateRef} />
-              <input
-                type="file"
-                disabled
-                id="certificate"
-                hidden
-                onChange={handleCertificateChange}
-              />
+              <img src={certificate} alt="" />
+              <input type="file" disabled id="certificate" hidden />
             </div>
           </div>
         </div>
