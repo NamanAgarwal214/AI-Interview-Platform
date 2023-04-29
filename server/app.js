@@ -11,6 +11,7 @@ const companyRoutes = require('./routes/companyRoutes')
 const questionRoutes = require('./routes/questionRoutes')
 const jobRoutes = require('./routes/jobRoutes')
 const applicantRoutes = require('./routes/applicantRoutes')
+const adminRoutes = require('./routes/adminRoutes')
 
 const app = express();
 app.use(cookieParser())
@@ -29,6 +30,7 @@ app.use('/company',companyRoutes)
 app.use('/question',questionRoutes)
 app.use('/jobs',jobRoutes)
 app.use('/applicant',applicantRoutes)
+app.use('/admin',adminRoutes)
 
 
 var PORT = process.env.PORT

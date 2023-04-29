@@ -1,7 +1,7 @@
 const Applicant = require('../models/Applicant')
 const Job = require('../models/Job')
 const { createSendToken } = require('../utils/auth')
-const { uploadFile, getSignUrlForFile,downloadVideo } = require('../utils/s3')
+const { uploadFile, getSignUrlForFile, downloadVideo } = require('../utils/s3')
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const Solution = require('../models/Solution')
@@ -185,7 +185,7 @@ exports.startQuiz = async (req, res, next) => {
     }
 }
 
-async function transcribe(){
+async function transcribe() {
     const path = require("path");
     const FormData = require("form-data");
     const OPENAI_API_KEY = "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";
@@ -203,14 +203,14 @@ async function transcribe(){
             }
         })
 
-        console.log(result)
+    console.log(result)
 
     return result.data.text;
 }
 
 exports.submitVideo = async (req, res, next) => {
     try {
-        let { solution, solutionVideo,question } = req.body
+        let { solution, solutionVideo, question } = req.body
 
         const solve = await Solution.findById(solution);
         if (!solve) {
@@ -234,7 +234,7 @@ exports.submitVideo = async (req, res, next) => {
         // fs.unlinkSync(writeStream.writeStream);
 
         res.json({
-            message:solutionText
+            message: solutionText
         })
 
         // const updatedSolve = await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
@@ -247,3 +247,17 @@ exports.submitVideo = async (req, res, next) => {
         });
     }
 }
+
+exports.test = async (req, res, next) => {
+    try {
+        
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: "fail",
+            messexpected_answer: error,
+        });
+    }
+}
+

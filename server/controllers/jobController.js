@@ -1,6 +1,7 @@
 const Jobs = require("../models/Job")
 const sendEmail = require("../utils/email");
 const Applicant = require('../models/Applicant')
+const Company = require('../models/Company')
 
 exports.createJob = async (req, res, next) => {
     try {
@@ -10,6 +11,7 @@ exports.createJob = async (req, res, next) => {
         const job = await Jobs.create(data);
 
         if (job) {
+            await Company.findByIdAndUpdate(req.user.id,{ $push: { jobs: job } })
             return res.status(200).json({
                 message: "Job posted",
                 data: job
