@@ -1,28 +1,44 @@
 import React from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBuilding,
+  faAddressCard,
+  faRightFromBracket,
+  faUser,
+  faSquarePollVertical,
+} from "@fortawesome/free-solid-svg-icons";
 import "../styles/SideNavbar.css";
 const SideNavbar = () => {
   const menuItemStyles = {
     root: {
-      fontSize: "15px",
+      fontSize: "17px",
       fontWeight: 400,
       color: "#fff",
     },
-    button: {
+    button: ({ active }) => {
       // [`&.${menuClasses.disabled}`]: {
       //   color: themes[theme].menu.disabled.color,
       // },
-      "&:hover": {
-        backgroundColor: "rgb(33, 42, 62,0.1)",
-        color: "black",
-      },
+      return {
+        margin: "4px 8px",
+        borderRadius: "10px",
+        fontWeight: active ? 500 : undefined,
+        backgroundColor: active ? "#676AD8" : undefined,
+        "&:hover": {
+          backgroundColor: "#676AD8",
+          borderRadius: "10px",
+          color: "#fff",
+          fontWeight: 500,
+        },
+      };
     },
     label: ({ open }) => ({
       fontWeight: open ? 600 : undefined,
     }),
   };
   return (
-    <Sidebar breakPoint="lg" backgroundColor="#212a3e">
+    <Sidebar breakPoint="lg" backgroundColor="#3339CD">
       <div className="sidebar">
         <div className="sidebar-head">
           <div className="logo-navbar">Logo</div>
@@ -31,9 +47,85 @@ const SideNavbar = () => {
           <MenuItem> Pie charts </MenuItem>
           <MenuItem> Line charts </MenuItem>
         </SubMenu> */}
-            <MenuItem> Company </MenuItem>
-            <MenuItem> Documentation </MenuItem>
-            <MenuItem> Calendar </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faBuilding}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+              active={true}
+            >
+              {" "}
+              Company Profile{" "}
+            </MenuItem>
+
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faUser}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Applicant Profile{" "}
+            </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faSquarePollVertical}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Results{" "}
+            </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faUser}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Admin Profile{" "}
+            </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faBuilding}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Companies{" "}
+            </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faAddressCard}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Jobs Posted{" "}
+            </MenuItem>
+            <MenuItem
+              icon={
+                <FontAwesomeIcon
+                  icon={faRightFromBracket}
+                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                />
+              }
+            >
+              {" "}
+              Logout{" "}
+            </MenuItem>
           </Menu>
         </div>
         <div className="sidebar-footer">
