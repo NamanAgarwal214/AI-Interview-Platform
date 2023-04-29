@@ -2,37 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import "../styles/CompanyProfile.css";
 import axios from "axios";
 
-const CompanyProfile = () => {
+const CompanyProfile = ({ companyData }) => {
   const imgRef = useRef(false);
   const certificateRef = useRef(false);
 
-  const [companyData, setCompanyData] = useState({
-    name: "",
-    email: "",
-    address: "",
-    isVerified: false,
-    logo: "",
-    certificate: "",
-  });
-
-  useEffect(() => {
-    const company = JSON.parse(localStorage.getItem("company"));
-    console.log(company);
-    setCompanyData({
-      name: company.name,
-      email: company.email,
-      address: company.address,
-      isVerified: company.isVerified,
-      logo: company.companyLogo,
-      certificate: company.companyCertificate,
-    });
-  }, []);
-
   const verifyHandler = async () => {
+    const token = localStorage.getItem("adminToken");
     try {
-      const response = await axios.patch("/company/verifyCompany", {
-        isVerified: true,
-      });
+      const response = await axios.patch(
+        "/admin/verifyCompany",
+        {
+          isVerified: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       console.log(error.message);
     }

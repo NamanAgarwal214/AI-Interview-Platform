@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginNew.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -28,9 +28,13 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            console.log(res.data);
-            localStorage.setItem("token", JSON.stringify(res.data.token));
-            localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
+            localStorage.setItem(
+              `${whoIsIt}Token`,
+              JSON.stringify(res.data.token)
+            );
+            if (res.data.user)
+              localStorage.setItem(`company`, JSON.stringify(res.data.user));
+            <Navigate to={`/${whoIsIt}/dashboard`} />;
             toast.success("Logged in successfully");
           })
           .catch((err) => {
