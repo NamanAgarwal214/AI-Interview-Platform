@@ -2,23 +2,26 @@
   display: flex;
   width: 100%;
 }
-.question-page-left {
+.scroll-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  overflow-y: scroll;
   background-color: #ecf9ff;
   flex: 65%;
-  padding: 4% 4%;
-  gap: 50px;
-  overflow-y: scroll;
 }
-.question-page-left::-webkit-scrollbar {
+.scroll-container::-webkit-scrollbar {
   display: none;
 }
+.question-page-left {
+  width: 100%;
+  padding: 40px 40px;
+  gap: 50px;
+}
+
 .question-page-header {
   display: flex;
   flex-direction: column;
   align-self: center;
+  margin: 20px auto;
   gap: 10px;
   width: 60%;
 }
@@ -70,6 +73,8 @@
   display: flex;
   flex-direction: column;
   align-self: center;
+  margin: 0px auto;
+
   padding: 20px 40px;
   background-color: #fff;
   border-radius: 20px;
@@ -133,6 +138,7 @@
 }
 .question-statement {
   display: flex;
+  flex: 60%;
   font-size: 1.4rem;
   font-weight: 500;
   flex-direction: column;
@@ -142,6 +148,8 @@
 .question-buttons {
   display: flex;
   justify-content: center;
+  margin: 20px auto;
+  padding: 30px 30px;
   width: 100%;
   gap: 20px;
 }
