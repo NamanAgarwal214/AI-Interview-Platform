@@ -94,14 +94,13 @@ exports.loginCompany = async (req, res, next) => {
       });
     }
 
-    const company = await Company.findOne({ email });
+    let company = await Company.findOne({ email });
     if (!company) {
       return res.status(401).json({
         status: "fail",
         message: `Incorrect email or password`,
       });
     }
-    console.log(company);
     if (!company.emailVerified || !company.isVerified) {
       return res.status(200).json({
         message: "Account is not verified",
@@ -117,6 +116,12 @@ exports.loginCompany = async (req, res, next) => {
         message: `Incorrect email or password`,
       });
     }
+    let companyLogo = await getSignUrlForFile(company.companyLogo);
+    company.companyLogo = companyLogo.signedUrl
+
+    let companyCertificate = await getSignUrlForFile(company.companyCertificate);
+    company.companyCertificate = companyCertificate.signedUrl
+
     createSendToken(company, 200, res);
   } catch (error) {
     console.log(error);
@@ -198,6 +203,12 @@ exports.authPass = async (req, res, next) => {
   // console.log(decoded);
   try {
     const currentUser = await Company.findById(decoded.id);
+
+    let companyLogo = await getSignUrlForFile(currentUser.companyLogo);
+    currentUser.companyLogo = companyLogo.signedUrl
+
+    let companyCertificate = await getSignUrlForFile(currentUser.companyCertificate);
+    currentUser.companyCertificate = companyCertificate.signedUrl
 
     // 4) Check if user changed password after the token was issued
 

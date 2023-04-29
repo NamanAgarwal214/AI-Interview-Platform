@@ -1,10 +1,17 @@
 import React from "react";
 import CompanyRegister from "../components/CompanyRegister";
+import { useParams } from "react-router-dom";
+import AdminRegister from "../components/AdminRegister";
 
 const Register = () => {
+  const { whoIsIt } = useParams();
   return (
     <>
-      <CompanyRegister />
+      {whoIsIt === "company" ? (
+        <CompanyRegister />
+      ) : (
+        <AdminRegister whoIsIt={whoIsIt} />
+      )}
     </>
   );
 };

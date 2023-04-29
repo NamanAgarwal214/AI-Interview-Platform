@@ -16,16 +16,16 @@ const CompanyProfile = () => {
   });
 
   useEffect(() => {
-    // axios.get("/company/getDetails").then((res) => {
-    //   setCompanyData({
-    //     name: res.data.name,
-    //     email: res.data.email,
-    //     address: res.data.address,
-    //     isVerified: res.data.isVerified,
-    //     logo: res.data.logo,
-    //     certificate: res.data.certificate
-    //   });
-    // });
+    const company = JSON.parse(localStorage.getItem("company"));
+    console.log(company);
+    setCompanyData({
+      name: company.name,
+      email: company.email,
+      address: company.address,
+      isVerified: company.isVerified,
+      logo: company.companyLogo,
+      certificate: company.companyCertificate,
+    });
   }, []);
 
   const verifyHandler = async () => {

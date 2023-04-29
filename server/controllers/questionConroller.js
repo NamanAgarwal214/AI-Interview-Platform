@@ -4,7 +4,7 @@ const Jobs = require("../models/Job")
 exports.createQuestion = async(req,res,next) => {
     try {
         const data = req.body.data;
-        const jobId = req.body.jobId;
+        const jobId = req.body.job;
 
         data.forEach(async (d) => {
             d.job = jobId
@@ -14,7 +14,7 @@ exports.createQuestion = async(req,res,next) => {
                     message:"Error occured"
                 })
             }
-            await Jobs.updateOne({id:jobId},{ $push: { questions: q  } });
+            await Jobs.findByIdAndUpdate(jobId,{ $push: { questions: q  } });
         })
 
         return res.status(200).json({

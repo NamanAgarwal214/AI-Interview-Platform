@@ -10,10 +10,17 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import CompanyPage from "./pages/CompanyPage";
 import ApplicantPage from "./pages/ApplicantPage";
+import { useEffect, useState } from "react";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
-  axios.defaults.baseURL =
-    "https://7098-2401-4900-5d38-6ffc-8921-e6b2-a57a-7f2d.ngrok-free.app";
+  axios.defaults.baseURL = "http://localhost:8000";
+
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
+  // useEffect(()=>{
+  //   setIsLoggedIn(lo)
+  // }, [])
+
   return (
     <>
       <ToastContainer
@@ -30,11 +37,12 @@ function App() {
       />
       <Routes>
         <Route exact index path="/" element={<LandingPage />} />
-        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/register/:whoIsIt" element={<Register />} />
         <Route exact path="/login/:whoIsIt" element={<LoginPage />} />
         <Route exact path="/contact" element={<ContactUs />} />
         <Route exact path="/addJob" element={<CreateJob />} />
-        <Route exact path="/admin/dashboard" element={<CompanyPage />} />
+        <Route exact path="/company/dashboard" element={<CompanyPage />} />
+        <Route exact path="/admin/dashboard" element={<AdminPage />} />
         <Route exact path="/dashboard" element={<ApplicantPage />} />
       </Routes>
     </>

@@ -36,7 +36,11 @@ const CompanySchema = new Schema({
       },
       verifyCode:{
         type:Number
-      }
+      },
+      jobs:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Job"
+      }]
 },{
     timestamps: true
 })

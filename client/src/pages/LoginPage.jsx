@@ -28,9 +28,13 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            console.log(res);
-            localStorage.setItem("token", res.data.token);
-            toast.success(res.data.message);
+            console.log(res.data);
+            localStorage.setItem("token", JSON.stringify(res.data.token));
+            localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
+            toast.success("Logged in successfully");
+          })
+          .catch((err) => {
+            toast.error(err.message);
           });
       } catch (error) {
         toast.error(error.message);
@@ -50,7 +54,7 @@ const LoginPage = () => {
             <div className="hello-msg">Hello Again!</div>
             <div className="gratitude-msg">
               {" "}
-              Login with your company to have a look to your dashboard.
+              Login your {whoIsIt} to have a look to your dashboard.
             </div>
           </div>
           <div className="login-form-box">
@@ -84,10 +88,13 @@ const LoginPage = () => {
                   Login
                 </button>
               </div>
-              {whoIsIt === "company" && (
+              {(whoIsIt === "company" || whoIsIt === "admin") && (
                 <div className="sign-up-message">
                   <div className="msg-left"> Don't have an account yet?</div>
-                  <Link to={"/register"} style={{ textDecoration: "none" }}>
+                  <Link
+                    to={`/register/${whoIsIt}`}
+                    style={{ textDecoration: "none" }}
+                  >
                     <div className="sign-up"> Sign Up </div>
                   </Link>
                 </div>
