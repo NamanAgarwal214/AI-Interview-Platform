@@ -45,9 +45,9 @@ const jobFormOne = ({ formData, nextStep, changeHandler }) => {
             <div className="job-step-input-box">
               <div className="field-label"> job description </div>
               <input
-                type="email"
+                type="text"
                 className="field-input"
-                name="email"
+                name="description"
                 value={description}
                 placeholder="Official email address of the job"
                 onChange={changeHandler}

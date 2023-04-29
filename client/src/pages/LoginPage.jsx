@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginNew.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -28,9 +28,17 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            console.log(res);
-            localStorage.setItem("token", res.data.token);
-            toast.success(res.data.message);
+            localStorage.setItem(
+              `${whoIsIt}Token`,
+              JSON.stringify(res.data.token)
+            );
+            if (res.data.user)
+              localStorage.setItem(`company`, JSON.stringify(res.data.user));
+            <Navigate to={`/${whoIsIt}/dashboard`} />;
+            toast.success("Logged in successfully");
+          })
+          .catch((err) => {
+            toast.error(err.message);
           });
       } catch (error) {
         toast.error(error.message);
@@ -50,7 +58,7 @@ const LoginPage = () => {
             <div className="hello-msg">Hello Again!</div>
             <div className="gratitude-msg">
               {" "}
-              Login with your company to have a look to your dashboard.
+              Login your {whoIsIt} to have a look to your dashboard.
             </div>
           </div>
           <div className="login-form-box">
@@ -84,10 +92,13 @@ const LoginPage = () => {
                   Login
                 </button>
               </div>
-              {whoIsIt === "company" && (
+              {(whoIsIt === "company" || whoIsIt === "admin") && (
                 <div className="sign-up-message">
                   <div className="msg-left"> Don't have an account yet?</div>
-                  <Link to={"/register"} style={{ textDecoration: "none" }}>
+                  <Link
+                    to={`/register/${whoIsIt}`}
+                    style={{ textDecoration: "none" }}
+                  >
                     <div className="sign-up"> Sign Up </div>
                   </Link>
                 </div>

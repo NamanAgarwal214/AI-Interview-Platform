@@ -4,8 +4,9 @@ import One from "./One";
 import Two from "./Two";
 import Final from "./Final";
 import Preview from "./Preview";
+import AdminOne from "./AdminOne";
 
-const CompanyRegisterRight = ({ step, setStep }) => {
+const CompanyRegisterRight = ({ whoIsIt, step, setStep }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -55,13 +56,16 @@ const CompanyRegisterRight = ({ step, setStep }) => {
 
   switch (step) {
     case 1:
-      return (
-        <One
-          nextStep={nextStep}
-          formData={formData}
-          changeHandler={changeHandler}
-        />
-      );
+      if (whoIsIt === "company") {
+        return (
+          <One
+            nextStep={nextStep}
+            formData={formData}
+            changeHandler={changeHandler}
+          />
+        );
+      }
+      return <AdminOne />;
     case 2:
       return (
         <Two
