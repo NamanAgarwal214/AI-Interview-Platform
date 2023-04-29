@@ -26,6 +26,10 @@ const ApplicantSchema = new Schema({
       job:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Job"
+      }],
+      solutions:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Solution"
       }]
 },{
     timestamps: true

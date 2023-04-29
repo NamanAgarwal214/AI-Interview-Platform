@@ -5,10 +5,12 @@ const { uploadFile, getSignUrlForFile, downloadVideo } = require('../utils/s3')
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const Solution = require('../models/Solution')
+const { PythonShell } = require('python-shell');
 
 
 const axios = require("axios");
 const fs = require("fs");
+const Question = require('../models/Question');
 
 exports.loginApplicant = async (req, res, next) => {
     try {
@@ -144,6 +146,7 @@ exports.startQuiz = async (req, res, next) => {
     try {
         const { job } = req.body;
         const user = req.user.id;
+        console.log(req.user)
         const jobDetails = await Job.findOne({
             _id: job,
             applicants: { $in: user }
@@ -165,6 +168,7 @@ exports.startQuiz = async (req, res, next) => {
         });
 
         if (solve) {
+            await Applicant.findByIdAndUpdate(user,{ $push: { solutions: solve } })
             return res.status(200).json({
                 message: "Start the quiz",
                 data: solve
@@ -188,7 +192,7 @@ exports.startQuiz = async (req, res, next) => {
 async function transcribe() {
     const path = require("path");
     const FormData = require("form-data");
-    const OPENAI_API_KEY = "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";
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
     const filePath = path.join('temp', "down.mp4");
     const model = "whisper-1";
     const formData = new FormData();
@@ -203,7 +207,6 @@ async function transcribe() {
             }
         })
 
-    console.log(result)
 
     return result.data.text;
 }
@@ -228,16 +231,16 @@ exports.submitVideo = async (req, res, next) => {
         await uploadFile(buffVideo, file_name, file_type)
         solutionVideo = file_name
 
-        const writeStream = await downloadVideo(solutionVideo);
-        const solutionText = await transcribe();
-        // console.log(solutionText)
-        // fs.unlinkSync(writeStream.writeStream);
+        await downloadVideo(solutionVideo);
+        
+
+        // console.log(score);
+        await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
 
         res.json({
-            message: solutionText
+            message: "Answer Submited"
         })
 
-        // const updatedSolve = await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
 
     } catch (error) {
         console.log(error);
@@ -248,9 +251,36 @@ exports.submitVideo = async (req, res, next) => {
     }
 }
 
-exports.test = async (req, res, next) => {
+exports.evaluateScore = async (req, res, next) => {
     try {
-        
+        let { solution, question } = req.body
+
+        const q = await Question.findById(question)
+        // console.log(q)
+
+        const solutionText = await transcribe();
+        console.log(solutionText)
+        // // fs.unlinkSync(writeStream.writeStream);
+
+        let options = {
+            mode: 'text',
+            pythonOptions: ['-u'], // get print results in real-time
+            args: [q.question,q.expectedAnswer,solutionText] //An argument which can be accessed in the script using sys.argv[1]
+        };
+        let score;
+        await PythonShell.run('service.py', options).then(message => {
+            console.log(message[0])
+            let similarityScore = Number(message[0].split(" ")[1])/Number(message[0].split(" ")[0])
+            score = similarityScore
+        });
+
+        await Solution.findByIdAndUpdate(solution,{ $push: { solutionTexts: solutionText } })
+        await Solution.findByIdAndUpdate(solution,{ $push: { solutionScore: score } })
+
+        // console.log(score)
+        return  res.status(200).json({
+            message:"Evaluated",
+        })
 
     } catch (error) {
         console.log(error);
