@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   background-color: #ecf9ff;
-  flex: 70%;
+  flex: 60%;
   padding: 5% 5%;
   gap: 30px;
   overflow-y: scroll;
@@ -146,11 +146,12 @@
   background-color: #ecf9ff;
 
   justify-content: center;
-  flex: 30%;
+  flex: 40%;
 }
-.image-upper {
+.start-test-right img {
   display: flex;
   align-self: center;
-  width: 50%;
-  height: 40%;
+  width: 100%;
+  height: 60%;
+  border-radius: 50%;
 }

@@ -55,9 +55,7 @@ const StartTest = () => {
         </div>
       </div>
       <div className="start-test-right">
-        {/* <div className="image-upper">
-          <img src="/images/interview.png" alt="" />
-        </div> */}
+        <img src="/images/start-test.png" alt="" />
       </div>
     </div>
   );
