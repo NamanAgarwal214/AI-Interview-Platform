@@ -105,6 +105,9 @@
   height: 80px;
   background-color: #083aa9;
   border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .company-register-info {
   display: flex;
