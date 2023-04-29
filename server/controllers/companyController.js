@@ -117,10 +117,12 @@ exports.loginCompany = async (req, res, next) => {
       });
     }
     let companyLogo = await getSignUrlForFile(company.companyLogo);
-    company.companyLogo = companyLogo.signedUrl
+    company.companyLogo = companyLogo.signedUrl;
 
-    let companyCertificate = await getSignUrlForFile(company.companyCertificate);
-    company.companyCertificate = companyCertificate.signedUrl
+    let companyCertificate = await getSignUrlForFile(
+      company.companyCertificate
+    );
+    company.companyCertificate = companyCertificate.signedUrl;
 
     createSendToken(company, 200, res);
   } catch (error) {
@@ -205,10 +207,12 @@ exports.authPass = async (req, res, next) => {
     const currentUser = await Company.findById(decoded.id);
 
     let companyLogo = await getSignUrlForFile(currentUser.companyLogo);
-    currentUser.companyLogo = companyLogo.signedUrl
+    currentUser.companyLogo = companyLogo.signedUrl;
 
-    let companyCertificate = await getSignUrlForFile(currentUser.companyCertificate);
-    currentUser.companyCertificate = companyCertificate.signedUrl
+    let companyCertificate = await getSignUrlForFile(
+      currentUser.companyCertificate
+    );
+    currentUser.companyCertificate = companyCertificate.signedUrl;
 
     // 4) Check if user changed password after the token was issued
 

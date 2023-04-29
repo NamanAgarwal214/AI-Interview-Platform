@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import "../styles/StartTest.css";
 
-const StartTest = () => {
+const StartTest = ({ jobData }) => {
+  const [job, setJob] = useState([]);
+
+  console.log(jobData);
+  const startHandler = async () => {
+    // const data = new FormData();
+    // data.append("job", job.id);
+    // const token = JSON.parse(localStorage.getItem("applicantToken"));
+    // axios
+    //   .post("/applicant/startQuiz", data, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   });
+  };
+
   return (
     <div className="start-test-page">
       <div className="start-test-left">
@@ -51,7 +70,9 @@ const StartTest = () => {
           </div>
         </div>
         <div className="start-test-box">
-          <button className="start-test-button">Start Test</button>
+          <button className="start-test-button" onClick={startHandler}>
+            Start Test
+          </button>
         </div>
       </div>
       <div className="start-test-right">

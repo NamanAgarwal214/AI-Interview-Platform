@@ -1,263 +1,267 @@
-const Applicant = require('../models/Applicant')
-const Job = require('../models/Job')
-const { createSendToken } = require('../utils/auth')
-const { uploadFile, getSignUrlForFile, downloadVideo } = require('../utils/s3')
+const Applicant = require("../models/Applicant");
+const Job = require("../models/Job");
+const { createSendToken } = require("../utils/auth");
+const { uploadFile, getSignUrlForFile, downloadVideo } = require("../utils/s3");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const Solution = require('../models/Solution')
-
+const Solution = require("../models/Solution");
 
 const axios = require("axios");
 const fs = require("fs");
 
 exports.loginApplicant = async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(500).json({
-                status: "fail",
-                message: "Please provide Email and password",
-            });
-        }
-
-        const applicant = await Applicant.findOne({ email });
-        if (!applicant) {
-            return res.status(401).json({
-                status: "fail",
-                message: `Incorrect email or password`,
-            });
-        }
-        console.log(applicant)
-
-        const correct = await applicant.correctPassword(password, applicant.password);
-
-        console.log(correct)
-
-        if (!correct) {
-            return res.status(401).json({
-                status: "fail",
-                message: `Incorrect email or password`,
-            });
-        }
-        createSendToken(applicant, 200, res);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: "fail",
-            message: error,
-        });
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Please provide Email and password",
+      });
     }
-}
+
+    const applicant = await Applicant.findOne({ email }).populate("job");
+    if (!applicant) {
+      return res.status(401).json({
+        status: "fail",
+        message: `Incorrect email or password`,
+      });
+    }
+    console.log(applicant);
+
+    const correct = await applicant.correctPassword(
+      password,
+      applicant.password
+    );
+
+    console.log(correct);
+
+    if (!correct) {
+      return res.status(401).json({
+        status: "fail",
+        message: `Incorrect email or password`,
+      });
+    }
+    createSendToken(applicant, 200, res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
 
 exports.editProfile = async (req, res, next) => {
-    try {
-        const id = req.user.id;
-        const body = req.body
+  try {
+    const id = req.user.id;
+    const body = req.body;
 
-        console.log(id)
+    console.log(id);
 
-        if (req.body.resume) {
-            const file_name_resume = `/Resume/${Date.now()}_resume_${req.user.name}.pdf`
-            const file_type_resume = req.body.file_type_resume
+    if (req.body.resume) {
+      const file_name_resume = `/Resume/${Date.now()}_resume_${
+        req.user.name
+      }.pdf`;
+      const file_type_resume = req.body.file_type_resume;
 
-            const base64StringResume = req.body.resume.replace(/^data:application\/\w+;base64,/, "");
-            const buffResume = Buffer.from(base64StringResume, "base64");
+      const base64StringResume = req.body.resume.replace(
+        /^data:application\/\w+;base64,/,
+        ""
+      );
+      const buffResume = Buffer.from(base64StringResume, "base64");
 
-            await uploadFile(buffResume, file_name_resume, file_type_resume);
+      await uploadFile(buffResume, file_name_resume, file_type_resume);
 
-            req.body.resume = file_name_resume;
-        }
-
-        const user_updated = await Applicant.findByIdAndUpdate(id, body, { new: true });
-
-        return res.status(200).json({
-            message: "Profile updated",
-            data: user_updated
-        })
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: "fail",
-            message: error,
-        });
+      req.body.resume = file_name_resume;
     }
-}
+
+    const user_updated = await Applicant.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+
+    return res.status(200).json({
+      message: "Profile updated",
+      data: user_updated,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
 
 exports.authPass = async (req, res, next) => {
-    // 1) Getting token and check of it's there
-    let token;
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.startsWith("Bearer")
-    ) {
-        token = await req.headers.authorization.split(" ")[1];
+  // 1) Getting token and check of it's there
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = await req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token || token === "null") {
+    return res.status(200).json({
+      message: "You aren't Logged In",
+    });
+  }
+
+  // 2) Verification token
+  let decoded;
+  try {
+    decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  } catch (e) {
+    if (e instanceof jwt.JsonWebTokenError) {
+      return res.status(200).json({
+        status: "fail",
+        message: "Session expired",
+      });
     }
+    return res.status(200).json({
+      status: "fail",
+      message: "An error occured",
+    });
+  }
+  // console.log("My decoded", decoded);
+  // GRANT ACCESS TO PROTECTED ROUTE
+  // 3) Check if user still exists
+  // console.log(decoded);
+  try {
+    const currentUser = await Applicant.findById(decoded.id);
 
-    if (!token || token === "null") {
-        return res.status(200).json({
-            message: "You aren't Logged In",
-        });
-    }
+    // 4) Check if user changed password after the token was issued
 
-    // 2) Verification token
-    let decoded;
-    try {
-        decoded = await jwt.verify(token, process.env.JWT_SECRET)
-    } catch (e) {
-        if (e instanceof jwt.JsonWebTokenError) {
-            return res.status(200).json({
-                status: "fail",
-                message: "Session expired"
-            })
-        }
-        return res.status(200).json({
-            status: "fail",
-            message: "An error occured"
-        })
-    }
-    // console.log("My decoded", decoded);
-    // GRANT ACCESS TO PROTECTED ROUTE
-    // 3) Check if user still exists
-    // console.log(decoded);
-    try {
-        const currentUser = await Applicant.findById(decoded.id)
-
-
-        // 4) Check if user changed password after the token was issued
-
-        req.user = currentUser;
-        // console.log("This is req.user from middlwwRE", req.user);
-        res.locals.user = currentUser;
-        console.log("Successfully Passed Middlware");
-        next();
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({
-            status: "fail",
-            message: err.message
-        });
-    }
+    req.user = currentUser;
+    // console.log("This is req.user from middlwwRE", req.user);
+    res.locals.user = currentUser;
+    console.log("Successfully Passed Middlware");
+    next();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
 };
 
 exports.startQuiz = async (req, res, next) => {
-    try {
-        const { job } = req.body;
-        const user = req.user.id;
-        const jobDetails = await Job.findOne({
-            _id: job,
-            applicants: { $in: user }
-        });
+  try {
+    const { job } = req.body;
+    const user = req.user.id;
+    const jobDetails = await Job.findOne({
+      _id: job,
+      applicants: { $in: user },
+    });
 
-        console.log(jobDetails)
-        if (!jobDetails) {
-            return res.status(401).json({
-                message: "User cannot access the quiz"
-            })
-        }
-
-        const questions = jobDetails.questions
-
-        const solve = await Solution.create({
-            job,
-            applicant: user,
-            questions
-        });
-
-        if (solve) {
-            return res.status(200).json({
-                message: "Start the quiz",
-                data: solve
-            })
-        }
-
-        return res.status(400).json({
-            message: "Error occured"
-        })
-
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: "fail",
-            message: error,
-        });
+    console.log(jobDetails);
+    if (!jobDetails) {
+      return res.status(401).json({
+        message: "User cannot access the quiz",
+      });
     }
-}
+
+    const questions = jobDetails.questions;
+
+    const solve = await Solution.create({
+      job,
+      applicant: user,
+      questions,
+    });
+
+    if (solve) {
+      return res.status(200).json({
+        message: "Start the quiz",
+        data: solve,
+      });
+    }
+
+    return res.status(400).json({
+      message: "Error occured",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
 
 async function transcribe() {
-    const path = require("path");
-    const FormData = require("form-data");
-    const OPENAI_API_KEY = "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";
-    const filePath = path.join('temp', "down.mp4");
-    const model = "whisper-1";
-    const formData = new FormData();
-    formData.append("model", model);
-    formData.append("file", fs.createReadStream(filePath));
+  const path = require("path");
+  const FormData = require("form-data");
+  const OPENAI_API_KEY = "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";
+  const filePath = path.join("temp", "down.mp4");
+  const model = "whisper-1";
+  const formData = new FormData();
+  formData.append("model", model);
+  formData.append("file", fs.createReadStream(filePath));
 
-    const result = await axios
-        .post("https://api.openai.com/v1/audio/transcriptions", formData, {
-            headers: {
-                Authorization: `Bearer ${OPENAI_API_KEY}`,
-                "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
-            }
-        })
+  const result = await axios.post(
+    "https://api.openai.com/v1/audio/transcriptions",
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+      },
+    }
+  );
 
-    console.log(result)
+  console.log(result);
 
-    return result.data.text;
+  return result.data.text;
 }
 
 exports.submitVideo = async (req, res, next) => {
-    try {
-        let { solution, solutionVideo, question } = req.body
+  try {
+    let { solution, solutionVideo, question } = req.body;
 
-        const solve = await Solution.findById(solution);
-        if (!solve) {
-            return res.status(400).json({
-                message: "No such quiz exist"
-            })
-        }
-
-        const base64String = solutionVideo.replace(/^data:video\/\w+;base64,/, "");
-        const buffVideo = Buffer.from(base64String, "base64");
-
-        const file_name = `/${solution}/${req.user.id}/${question}`
-        const file_type = req.body.file_type;
-
-        await uploadFile(buffVideo, file_name, file_type)
-        solutionVideo = file_name
-
-        const writeStream = await downloadVideo(solutionVideo);
-        const solutionText = await transcribe();
-        // console.log(solutionText)
-        // fs.unlinkSync(writeStream.writeStream);
-
-        res.json({
-            message: solutionText
-        })
-
-        // const updatedSolve = await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: "fail",
-            message: error,
-        });
+    const solve = await Solution.findById(solution);
+    if (!solve) {
+      return res.status(400).json({
+        message: "No such quiz exist",
+      });
     }
-}
+
+    const base64String = solutionVideo.replace(/^data:video\/\w+;base64,/, "");
+    const buffVideo = Buffer.from(base64String, "base64");
+
+    const file_name = `/${solution}/${req.user.id}/${question}`;
+    const file_type = req.body.file_type;
+
+    await uploadFile(buffVideo, file_name, file_type);
+    solutionVideo = file_name;
+
+    const writeStream = await downloadVideo(solutionVideo);
+    const solutionText = await transcribe();
+    // console.log(solutionText)
+    // fs.unlinkSync(writeStream.writeStream);
+
+    res.json({
+      message: solutionText,
+    });
+
+    // const updatedSolve = await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
 
 exports.test = async (req, res, next) => {
-    try {
-        
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            status: "fail",
-            messexpected_answer: error,
-        });
-    }
-}
-
+  try {
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "fail",
+      messexpected_answer: error,
+    });
+  }
+};
