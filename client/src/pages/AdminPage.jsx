@@ -2,16 +2,14 @@ import React from "react";
 import SideNavbar from "../components/SideNavbar";
 import "../styles/CompanyPage.css";
 import CompanyProfile from "../components/CompanyProfile";
-import StartTest from "../components/StartTest";
 
-const CompanyPage = () => {
+const AdminPage = () => {
   return (
     <div className="company-page">
       <SideNavbar />
       <CompanyProfile />
-      {/* <StartTest /> */}
     </div>
   );
 };
 
-export default CompanyPage;
+export default AdminPage;
