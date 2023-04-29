@@ -255,4 +255,7 @@
   color: #8193a8;
 }
 .q-icon {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

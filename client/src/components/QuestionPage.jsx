@@ -1,4 +1,9 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleCheck,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import "../styles/QuestionPage.css";
 const QuestionPage = () => {
   return (
@@ -59,15 +64,38 @@ const QuestionPage = () => {
           </div>
         </div>
         <div className="question-status">
-          <div className="each-question">
-            <div className="question-info">
-              <div className="question-number">Question 1</div>
-              <div className="question-attempts">
-                Number of attempts left : 4
+          {[...Array(4).keys()].map((i) => (
+            <div className="each-question">
+              <div className="question-info">
+                <div className="question-number">Question {i + 1}</div>
+                <div className="question-attempts">
+                  Number of attempts left : 2
+                </div>
+              </div>
+              <div className="q-icon">
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  style={{ color: "#2ac11f", width: "30px", height: "30px" }}
+                />
               </div>
             </div>
-            <div className="q-icon"></div>
-          </div>
+          ))}
+          {[...Array(8).keys()].map((i) => (
+            <div className="each-question">
+              <div className="question-info">
+                <div className="question-number">Question {i + 5}</div>
+                <div className="question-attempts">
+                  Number of attempts left : 3
+                </div>
+              </div>
+              <div className="q-icon">
+                <FontAwesomeIcon
+                  icon={faCircleXmark}
+                  style={{ color: "#ea1010", width: "30px", height: "30px" }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
