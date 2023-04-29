@@ -13,7 +13,7 @@ const ApplicantPage = () => {
   });
 
   useEffect(() => {
-    const applicant = JSON.parse(localStorage.getItem("company"));
+    const applicant = JSON.parse(localStorage.getItem("applicant"));
     setApplicantData({
       name: applicant.name,
       email: applicant.email,
