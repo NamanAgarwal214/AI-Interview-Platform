@@ -25,25 +25,33 @@ const StartTest = ({ jobData }) => {
     <div className="start-test-page">
       <div className="start-test-left">
         <div className="test-job-info">
-          <div className="job-type">Software Engineer Test</div>
-          <div className="about-job-card">
-            <div className="about-job-info">
-              <div className="heading-about-job">About Job</div>
-              <div className="job-description">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
+          <div className="job-type">Jobs</div>
+          {[...Array(8).keys()].map((i) => (
+            <div className="about-job-card">
+              <div className="about-job-info">
+                <div className="heading-about-job">Job Title</div>
+                <div className="job-description">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has
+                </div>
               </div>
-            </div>
-            <div className="company-logo-box">
-              <div className="company-logo-test">
+              <div className="company-logo-box">
+                {/* <div className="company-logo-test">
                 <img src="/images/google.png" alt="" />
+              </div> */}
+                {/* <div className="start-test-box"> */}
+                <button className="start-test-button" onClick={startHandler}>
+                  Start Test
+                </button>
+                {/* </div> */}
               </div>
             </div>
-          </div>
+          ))}
         </div>
-        <div className="test-activity">
+        {/* <div className="test-activity">
           <div className="test-activity-heading">Activity</div>
           <div className="test-activity-card">
             <div className="activity-box">
@@ -68,16 +76,16 @@ const StartTest = ({ jobData }) => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="start-test-box">
+        </div> */}
+        {/* <div className="start-test-box">
           <button className="start-test-button" onClick={startHandler}>
             Start Test
           </button>
-        </div>
+        </div> */}
       </div>
-      <div className="start-test-right">
+      {/* <div className="start-test-right">
         <img src="/images/start-test.png" alt="" />
-      </div>
+      </div> */}
     </div>
   );
 };
