@@ -36,7 +36,7 @@ const Preview = ({
       })
       .then((res) => {
         toast.success(res.data.message);
-        <Navigate to={"/dashboard"} />;
+        <Navigate to={"/confirm"} />;
       })
       .catch((err) => {
         toast.error(err.message);

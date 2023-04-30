@@ -100,6 +100,8 @@
   gap: 40px;
 }
 .job-register-info-icon {
+  display: flex;
+  justify-content: center;
   width: 80px;
   height: 80px;
   background-color: #083aa9;
@@ -165,7 +167,7 @@
   display: flex;
   gap: 10px;
 }
-.back-button {
+.back-button-job {
   text-align: center;
   color: #567191;
   padding: 10px;
@@ -178,7 +180,7 @@
   border: none;
   cursor: pointer;
 }
-.back-button:hover {
+.back-button-job:hover {
   color: #567191;
   background-color: #fff;
 }

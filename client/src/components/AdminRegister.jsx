@@ -7,7 +7,7 @@ const AdminRegister = ({ whoIsIt }) => {
   const [step, setStep] = useState(1);
   return (
     <div className="company-register-multistep">
-      <CompanyRegisterLeft step={step} />
+      <CompanyRegisterLeft step={step} whoIsIt={whoIsIt} />
       <CompanyRegisterRight whoIsIt={whoIsIt} step={step} setStep={setStep} />
     </div>
   );

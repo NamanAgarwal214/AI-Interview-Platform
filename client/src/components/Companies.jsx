@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Jobs from "./Jobs";
+import CompaniesTable from "./CompaniesTable";
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
+  const [view, setView] = useState("companies");
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("adminToken"));
@@ -19,7 +21,13 @@ const Companies = () => {
       });
   }, []);
 
-  return <Jobs data={companies} />;
+  return (
+    <>
+      <CompaniesTable data={companies} view={view} setView={setView} />
+      {/* {view === "jobs" && <JobsTableAdmin data={companies} />} */}
+      {/* {view === "applicants" && <ApplicantsTable data={companies} />} */}
+    </>
+  );
 };
 
 export default Companies;

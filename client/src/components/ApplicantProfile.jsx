@@ -37,37 +37,37 @@ const ApplicantProfile = () => {
   }
 
   const handleResumeChange = (e) => {
-    setFile(true);
-    const reader = new FileReader();
-    console.log(e.target.files[0]);
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        console.log(reader.result);
-        setApplicantData({ ...applicantData, [e.target.name]: reader.result });
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    setFileType(e.target.files[0].type);
+    //   setFile(true);
+    //   const reader = new FileReader();
+    //   console.log(e.target.files[0]);
+    //   reader.onload = () => {
+    //     if (reader.readyState === 2) {
+    //       console.log(reader.result);
+    //       setApplicantData({ ...applicantData, [e.target.name]: reader.result });
+    //     }
+    //   };
+    //   reader.readAsDataURL(e.target.files[0]);
+    //   setFileType(e.target.files[0].type);
   };
 
-  const base64toBlob = (data) => {
-    const base64WithoutPrefix = data.substr(
-      "data:application/pdf;base64,".length
-    );
+  // const base64toBlob = (data) => {
+  //   const base64WithoutPrefix = data.substr(
+  //     "data:application/pdf;base64,".length
+  //   );
 
-    const bytes = atob(base64WithoutPrefix);
-    let length = bytes.length;
-    let out = new Uint8Array(length);
+  //   const bytes = atob(base64WithoutPrefix);
+  //   let length = bytes.length;
+  //   let out = new Uint8Array(length);
 
-    while (length--) {
-      out[length] = bytes.charCodeAt(length);
-    }
+  //   while (length--) {
+  //     out[length] = bytes.charCodeAt(length);
+  //   }
 
-    return new Blob([out], { type: "application/pdf" });
-  };
-  const blob = base64toBlob(applicantData.resume);
-  const url = URL.createObjectURL(blob);
-  console.log(url);
+  //   return new Blob([out], { type: "application/pdf" });
+  // };
+  // const blob = base64toBlob(applicantData.resume);
+  // const url = URL.createObjectURL(blob);
+  // console.log(url);
 
   const submitHandler = async () => {
     const token = localStorage.getItem("applicantToken");
@@ -99,7 +99,7 @@ const ApplicantProfile = () => {
 
   return (
     <>
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+      {/* <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
         <div>
           {url && (
             <div
@@ -112,8 +112,8 @@ const ApplicantProfile = () => {
             </div>
           )}
         </div>
-        {/* {file && <Viewer fileUrl={applicantData.resume} />} */}
-      </Worker>
+        {/* {file && <Viewer fileUrl={applicantData.resume} />} 
+      </Worker> */}
       <div className="visible-area">
         <div className="applicant-profile">
           <div className="heading-box">
@@ -187,16 +187,22 @@ const ApplicantProfile = () => {
             </div>
             <div className="field-right">
               <div className="resume-image">
-                <img src={applicantData.resume} alt="" ref={resumeRef} />
+                <img
+                  src={
+                    "https://d2guxo9kxr1tui.cloudfront.net/assets/template-thumbnails/regal-d159caed5f8e0146b0c60a821c22d0c251b844826a017542a4dfa7c4a7462db2.jpg"
+                  }
+                  alt=""
+                  ref={resumeRef}
+                />
 
-                <input
+                {/* <input
                   type="file"
                   id="resume"
                   name="resume"
                   accept="application/pdf"
                   onChange={handleResumeChange}
                 />
-                <label className="fileLabelResume" htmlFor="resume"></label>
+                <label className="fileLabelResume" htmlFor="resume"></label> */}
               </div>
             </div>
           </div>
