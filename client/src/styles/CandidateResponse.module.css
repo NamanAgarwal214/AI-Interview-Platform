@@ -1,0 +1,42 @@
+/* Center the page content */
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Style the video container */
+  .video-container {
+    max-width: 800px;
+    margin-top: 20px;
+  }
+  
+  /* Style the question heading */
+  h1 {
+    font-size: 36px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+  
+  /* Style the text */
+  p {
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 800px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Style the video player */
+  video {
+    width: 100%;
+    max-height: 400px;
+    margin-top: 20px;
+  }
+  
+  /* Add a border around the video player */
+  video:focus {
+    outline: none;
+    border: 2px solid #0070f3;
+  }
+  

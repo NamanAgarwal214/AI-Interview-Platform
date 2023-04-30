@@ -25,8 +25,8 @@ const ApplicantPage = () => {
   return (
     <div className="applicant-page">
       <SideNavbar person={"applicant"} />
-      <ApplicantProfile />
-      {/* <StartTest jobData={applicantData.job} /> */}
+      {/* <ApplicantProfile /> */}
+      <StartTest jobData={applicantData.job} />
     </div>
   );
 };
