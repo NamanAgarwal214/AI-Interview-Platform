@@ -17,6 +17,8 @@ import Companies from "./components/Companies";
 import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
+import CandidateResponse from "./pages/CandidateResponse";
+import Record from "./pages/Record";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:8000";
@@ -53,6 +55,11 @@ function App() {
         <Route exact path="/confirm" element={<ConfirmEmail />} />
         {/* <Route exact path="/startTest" element={<SamplePage />} /> */}
         <Route exact path="/companies" element={<CompaniesTablePage />} />
+        <Route
+          exact
+          path="/candidate/response"
+          element={<CandidateResponse />}
+        />
       </Routes>
     </>
   );

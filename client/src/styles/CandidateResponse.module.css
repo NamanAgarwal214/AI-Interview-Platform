@@ -1,0 +1,143 @@
+.companiestablepage {
+  display: flex;
+  height: 100vh;
+}
+
+.questionpage {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  padding: 50px;
+    width: 60%;
+    margin: auto;
+}
+
+.questionpage h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  /* text-align: center; */
+  color: #2d2d2d;
+  text-shadow: 1px 1px #fff;
+}
+
+.questionpage form {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  max-width: 800px;
+  width: 100%;
+}
+
+.questionpage label {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #2d2d2d;
+}
+
+.questionpage input[type="text"] {
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: #ebebeb;
+  border-radius: 5px;
+}
+
+.questionpage input[type="submit"] {
+  background-color: #2d2d2d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.questionpage input[type="submit"]:hover {
+  background-color: #fff;
+  color: #2d2d2d;
+  border: 1px solid #2d2d2d;
+}
+
+.questionpage .videoresponse {
+  margin-top: 30px;
+  max-width: 800px;
+  width: 60%;
+  height: auto;
+  position: relative;
+}
+
+.questionpage .videoresponse video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.questionpage .videoresponse .play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  background-color: rgba(45, 45, 45, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.questionpage .videoresponse .play-button:hover {
+  background-color: rgba(45, 45, 45, 1);
+}
+
+.questionpage .videoresponse .play-button img {
+  width: 50%;
+  height: 50%;
+}
+
+.questionpage .text {
+  margin-top: 10px;
+  font-size: 1.3rem;
+  /* text-align: center; */
+  color: #2d2d2d;
+  line-height: 1.5;
+}
+
+.Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+
+.Title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.CandidateDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.CandidateName {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.CandidateRole {
+  font-size: 14px;
+  margin: 0;
+}

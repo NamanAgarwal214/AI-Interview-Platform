@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/email");
 const { uploadFile, getSignUrlForFile } = require("../utils/s3");
 const { createSendToken } = require("../utils/auth");
+const Solution = require("../models/Solution");
 
 exports.registerCompany = async (req, res, next) => {
   try {
@@ -153,8 +154,7 @@ exports.confirmEmail = async (req, res, next) => {
     });
 
     if (user) {
-      user.emailVerified = true;
-      await user.save();
+      await Company.findByIdAndUpdate(user._id,{emailVerified:true})
 
       return res.status(200).json({
         message: "Email Verified",
@@ -235,3 +235,42 @@ exports.authPass = async (req, res, next) => {
     });
   }
 };
+
+exports.report = async(req,res,next) => {
+  try{
+    const {job} = req.body
+
+    const solutions = await Solution.find({job}).populate('questions').lean();
+
+    
+    solutions.forEach((s) => {
+      let avg = 0;
+      let solutionVideo;
+      if(s.solutionScore?.length > 0){
+        let sum = s.solutionScore.reduce((a, b) => a + b);
+        avg = sum/s.questions.length;
+      }
+      s.avg = avg;
+      // s.solutionVideos = solutionVideo
+    })
+
+    for(let i=0;i<solutions.length;i++){
+      for(let j=0;j<solutions[i].solutionVideos.length;j++){
+        let a = await getSignUrlForFile(solutions[i].solutionVideos[j]);
+        solutions[i].solutionVideos[j] = a.signedUrl
+      }
+    }
+
+    res.status(200).json({
+      message:"Data",
+      data:solutions
+    })
+
+  }catch (error) {
+    console.log(error);
+    res.status(404).json({
+      status: "fail",
+      message: error,
+    });
+  }
+}

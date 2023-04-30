@@ -209,6 +209,8 @@ async function transcribe() {
     formData.append("model", model);
     formData.append("file", fs.createReadStream(filePath));
 
+    console.log("Formdata",formData)
+
     const result = await axios
         .post("https://api.openai.com/v1/audio/transcriptions", formData, {
             headers: {
@@ -217,7 +219,7 @@ async function transcribe() {
             }
         })
 
-
+        console.log(result.data.text)
     return result.data.text;
 }
 
