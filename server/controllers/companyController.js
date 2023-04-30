@@ -55,12 +55,18 @@ exports.registerCompany = async (req, res, next) => {
       "host"
     )}/company/verifyMail/${newCompany.verifyCode}/${newCompany._id}`;
 
-    const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${verifyURL}.\nIf you didn't forget your password, please ignore this email!`;
+    const message = {
+      verifyURL,
+      name:newCompany.name
+    };
+
+    const html = "verify"
 
     await sendEmail({
       email: req.body.email,
       subject: "Email Verification",
       message,
+      html
     });
 
     if (!newCompany) {
@@ -178,7 +184,7 @@ exports.authPass = async (req, res, next) => {
   }
 
   if (!token || token === "null") {
-    return res.status(200).json({
+    return res.status(400).json({
       message: "You aren't Logged In",
     });
   }
@@ -189,12 +195,12 @@ exports.authPass = async (req, res, next) => {
     decoded = await jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {
-      return res.status(200).json({
+      return res.status(400).json({
         status: "fail",
         message: "Session expired",
       });
     }
-    return res.status(200).json({
+    return res.status(400).json({
       status: "fail",
       message: "An error occured",
     });

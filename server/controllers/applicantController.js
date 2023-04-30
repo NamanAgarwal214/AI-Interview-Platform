@@ -175,6 +175,8 @@ exports.startQuiz = async (req, res, next) => {
             questions
         });
 
+        solve.questions = await Question.find({ job: job },{expectedAnswer:0});
+
         if (solve) {
             await Applicant.findByIdAndUpdate(user,{ $push: { solutions: solve } })
             return res.status(200).json({

@@ -16,6 +16,7 @@ import SamplePage from "./pages/SamplePage";
 import Companies from "./components/Companies";
 import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
+import ConfirmEmail from "./pages/ConfirmEmail";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:8000";
@@ -49,6 +50,7 @@ function App() {
         <Route exact path="/admin/dashboard" element={<AdminPage />} />
         <Route exact path="/dashboard" element={<ApplicantPage />} />
         <Route exact path="/question" element={<SamplePage />} />
+        <Route exact path="/confirm" element={<ConfirmEmail />} />
         {/* <Route exact path="/startTest" element={<SamplePage />} /> */}
         <Route exact path="/companies" element={<CompaniesTablePage />} />
       </Routes>

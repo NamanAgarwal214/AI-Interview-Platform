@@ -155,7 +155,7 @@ exports.authPass = async (req, res, next) => {
   }
 
   if (!token || token === "null") {
-    return res.status(200).json({
+    return res.status(400).json({
       message: "You aren't Logged In",
     });
   }
@@ -166,12 +166,12 @@ exports.authPass = async (req, res, next) => {
     decoded = await jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     if (e instanceof jwt.JsonWebTokenError) {
-      return res.status(200).json({
+      return res.status(400).json({
         status: "fail",
         message: "Session expired",
       });
     }
-    return res.status(200).json({
+    return res.status(400).json({
       status: "fail",
       message: "An error occured",
     });
