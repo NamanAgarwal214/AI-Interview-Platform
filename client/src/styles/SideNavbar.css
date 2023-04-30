@@ -25,14 +25,14 @@
 }
 .about-company {
   justify-content: center;
-  width: 90%;
+  width: fit-content;
   display: flex;
   flex-direction: row;
   gap: 10px;
   background-color: #5d5ed0;
   border-radius: 10px;
   border: 1px solid rgb(255, 255, 255, 0.5);
-  padding: 5px 0;
+  padding: 5px 2px;
 }
 .about-company:hover {
   background-color: rgb(93, 94, 208, 0.5);

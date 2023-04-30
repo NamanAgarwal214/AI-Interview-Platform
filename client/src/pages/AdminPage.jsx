@@ -7,7 +7,7 @@ import Companies from "../components/Companies";
 const AdminPage = () => {
   return (
     <div className="company-page">
-      <SideNavbar />
+      <SideNavbar person={"admin"} />
       <Companies />
       {/* <CompanyProfile /> */}
     </div>

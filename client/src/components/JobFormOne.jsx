@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressCard } from "@fortawesome/free-solid-svg-icons";
 // import { toast } from "react-toastify";
 
 const jobFormOne = ({ formData, nextStep, changeHandler }) => {
@@ -21,7 +23,18 @@ const jobFormOne = ({ formData, nextStep, changeHandler }) => {
   return (
     <div className="job-register-info-side">
       <div className="job-register-info-box">
-        <div className="job-register-info-icon"></div>
+        <div className="job-register-info-icon">
+          <FontAwesomeIcon
+            icon={faAddressCard}
+            style={{
+              display: "flex",
+              alignSelf: "center",
+              color: "#f7f9fc",
+              width: "40px",
+              height: "40px",
+            }}
+          />
+        </div>
         <div className="job-register-info">
           <div className="job-step-info">
             <div className="job-step-name"> Your job Information</div>

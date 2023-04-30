@@ -21,12 +21,12 @@ const ApplicantPage = () => {
       job: applicant.job,
     });
   }, []);
-
+  console.log(applicantData);
   return (
     <div className="applicant-page">
-      <SideNavbar />
-      {/* <ApplicantProfile /> */}
-      <StartTest jobData={applicantData.job} />
+      <SideNavbar person={"applicant"} />
+      <ApplicantProfile />
+      {/* <StartTest jobData={applicantData.job} /> */}
     </div>
   );
 };

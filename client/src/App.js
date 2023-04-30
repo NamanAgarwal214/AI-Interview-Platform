@@ -13,11 +13,14 @@ import ApplicantPage from "./pages/ApplicantPage";
 import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage";
 import SamplePage from "./pages/SamplePage";
+import Companies from "./components/Companies";
+import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8000";
+  axios.defaults.baseURL =
+    "https://a0ea-2401-4900-5d1f-a915-7d0f-1c28-814b-84d2.ngrok-free.app";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
   // useEffect(()=>{
@@ -50,6 +53,7 @@ function App() {
         <Route exact path="/question" element={<SamplePage />} />
         <Route exact path="/confirm" element={<ConfirmEmail />} />
         {/* <Route exact path="/startTest" element={<SamplePage />} /> */}
+        <Route exact path="/companies" element={<CompaniesTablePage />} />
       </Routes>
     </>
   );

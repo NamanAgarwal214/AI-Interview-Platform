@@ -28,7 +28,7 @@ const CompanyRegisterRight = ({ whoIsIt, step, setStep }) => {
   const prevStep = () => {
     setStep(step - 1);
   };
-
+  console.log(whoIsIt, "Whooo");
   const changeHandler = (e) => {
     if (e.target.name === "logo") {
       const reader = new FileReader();
