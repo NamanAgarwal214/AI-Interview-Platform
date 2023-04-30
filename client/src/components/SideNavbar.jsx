@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SideNavbar.css";
 const SideNavbar = ({ person }) => {
+  const [activeState, setActiveState] = useState(
+    person === "admin"
+      ? "companies"
+      : person === "company"
+      ? "companyProfile"
+      : "applicantProfile"
+  );
   const menuItemStyles = {
     root: {
       fontSize: "17px",
@@ -55,6 +62,8 @@ const SideNavbar = ({ person }) => {
                     style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
                   />
                 }
+                active={activeState === "companies"}
+                onClick={() => setActiveState("companies")}
               >
                 {" "}
                 Companies{" "}
@@ -73,7 +82,8 @@ const SideNavbar = ({ person }) => {
                       }}
                     />
                   }
-                  active={true}
+                  active={activeState === "companyProfile"}
+                  onClick={() => setActiveState("companyProfile")}
                 >
                   {" "}
                   Company Profile{" "}
@@ -89,6 +99,8 @@ const SideNavbar = ({ person }) => {
                       }}
                     />
                   }
+                  active={activeState === "jobsPosted"}
+                  onClick={() => setActiveState("jobsPosted")}
                 >
                   {" "}
                   Jobs Posted{" "}
@@ -108,6 +120,8 @@ const SideNavbar = ({ person }) => {
                       }}
                     />
                   }
+                  active={activeState === "applicantProfile"}
+                  onClick={() => setActiveState("applicantProfile")}
                 >
                   {" "}
                   Applicant Profile{" "}
@@ -123,9 +137,28 @@ const SideNavbar = ({ person }) => {
                       }}
                     />
                   }
+                  active={activeState === "results"}
+                  onClick={() => setActiveState("results")}
                 >
                   {" "}
                   Results{" "}
+                </MenuItem>
+                <MenuItem
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faAddressCard}
+                      style={{
+                        color: "#f7f9fc",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  }
+                  active={activeState === "jobsPosted"}
+                  onClick={() => setActiveState("jobsPosted")}
+                >
+                  {" "}
+                  Jobs Posted{" "}
                 </MenuItem>
               </>
             )}
@@ -137,6 +170,8 @@ const SideNavbar = ({ person }) => {
                   style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
                 />
               }
+              active={activeState === "logout"}
+              onClick={() => setActiveState("logout")}
             >
               {" "}
               Logout{" "}
@@ -146,11 +181,14 @@ const SideNavbar = ({ person }) => {
         <div className="sidebar-footer">
           <div className="about-company">
             <div className="company-logo">
-              <img src="/images/google.png" alt="" />
+              <img
+                src="https://pbs.twimg.com/card_img/1649335561130328065/nJpZwB8N?format=png&name=medium"
+                alt=""
+              />
             </div>
             <div className="company-info">
-              <div className="company-name">Google</div>
-              <div className="company-email">google.com</div>
+              <div className="company-name">Shivansh Joshi</div>
+              <div className="company-email">shivanshjoshi277@gmail.com</div>
             </div>
           </div>
         </div>

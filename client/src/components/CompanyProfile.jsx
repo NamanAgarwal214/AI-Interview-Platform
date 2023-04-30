@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/CompanyProfile.css";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const CompanyProfile = ({ companyData }) => {
@@ -20,7 +21,9 @@ const CompanyProfile = ({ companyData }) => {
           },
         }
       );
+      toast.success("Company Verified!");
     } catch (error) {
+      toast.error(error.message);
       console.log(error.message);
     }
   };

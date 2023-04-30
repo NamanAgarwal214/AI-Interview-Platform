@@ -1,6 +1,8 @@
 import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAddressCard } from "@fortawesome/free-solid-svg-icons";
 
 const JobFormTwo = ({
   prevStep,
@@ -82,7 +84,18 @@ const JobFormTwo = ({
     <>
       <div className="job-register-info-side">
         <div className="job-register-info-box">
-          <div className="job-register-info-icon"></div>
+          <div className="job-register-info-icon">
+            <FontAwesomeIcon
+              icon={faAddressCard}
+              style={{
+                display: "flex",
+                alignSelf: "center",
+                color: "#f7f9fc",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          </div>
           <div className="job-register-info">
             <div className="job-step-info">
               <div className="job-step-name"> Your job Information</div>
@@ -120,7 +133,11 @@ const JobFormTwo = ({
               </div>
             </div>
             <div className="buttons">
-              <button className="back-button" type="back" onClick={prevStep}>
+              <button
+                className="back-button-job"
+                type="back"
+                onClick={prevStep}
+              >
                 Back
               </button>
               <button

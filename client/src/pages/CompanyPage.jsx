@@ -29,7 +29,7 @@ const CompanyPage = () => {
 
   return (
     <div className="company-page">
-      <SideNavbar />
+      <SideNavbar person={"company"} />
       <CompanyProfile companyData={companyData} />
     </div>
   );
