@@ -9,6 +9,7 @@ const CompanyProfile = ({ companyData }) => {
 
   const verifyHandler = async () => {
     const token = localStorage.getItem("adminToken");
+
     try {
       const response = await axios.patch(
         "/admin/verifyCompany",

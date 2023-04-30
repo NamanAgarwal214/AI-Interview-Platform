@@ -11,6 +11,7 @@ const ApplicantPage = () => {
     address: "",
     job: [],
   });
+  const [activeState, setActiveState] = useState("applicantProfile");
 
   useEffect(() => {
     const applicant = JSON.parse(localStorage.getItem("applicant"));
@@ -24,9 +25,15 @@ const ApplicantPage = () => {
   console.log(applicantData);
   return (
     <div className="applicant-page">
-      <SideNavbar person={"applicant"} />
-      {/* <ApplicantProfile /> */}
-      <StartTest jobData={applicantData.job} />
+      <SideNavbar
+        activeState={activeState}
+        setActiveState={setActiveState}
+        person={"applicant"}
+      />
+      {activeState === "applicantProfile" && <ApplicantProfile />}
+      {activeState === "jobsPosted" && (
+        <StartTest jobData={applicantData.job} />
+      )}
     </div>
   );
 };

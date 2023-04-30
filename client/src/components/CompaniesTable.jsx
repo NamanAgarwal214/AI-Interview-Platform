@@ -115,14 +115,14 @@ const CompaniesTable = ({ data, view, setView }) => {
     }
   }, [view, data, jobs]);
   const verifyHandler = async (id) => {
-    const token = localStorage.getItem("adminToken");
+    const token = JSON.parse(localStorage.getItem("adminToken"));
     try {
       const response = await axios.patch(
         `/admin/verifyCompany?id=${id}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token.substring(1, token.length - 1)}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

@@ -37,8 +37,10 @@ const Preview = ({
         },
       })
       .then((res) => {
-        toast.success(res.data.message);
-        navigate("/confirm");
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          navigate("/confirm");
+        }
       })
       .catch((err) => {
         toast.error(err.message);
@@ -50,14 +52,14 @@ const Preview = ({
         <div className="heading-box">
           <div className="heading">Profile Preview</div>
           <div className="about-heading">
-            Update your company photo and details here.
+            Your company photo and details here.
           </div>
         </div>
         <div className="divider"></div>
         <div className="field-box">
           <div className="field-left">
             <div className="field">Company Logo</div>
-            <div className="field-detail">Update your company logo here.</div>
+            <div className="field-detail">Your company logo here.</div>
           </div>
           <div className="field-right">
             <div className="image">
@@ -70,9 +72,7 @@ const Preview = ({
         <div className="field-box">
           <div className="field-left">
             <div className="field">Company Name</div>
-            <div className="field-detail">
-              Update the name of your company here.
-            </div>
+            <div className="field-detail">Name of your company</div>
           </div>
           <div className="field-right">
             <input
@@ -89,9 +89,7 @@ const Preview = ({
         <div className="field-box">
           <div className="field-left">
             <div className="field">Company Address</div>
-            <div className="field-detail">
-              Update the address of your company here.
-            </div>
+            <div className="field-detail">Address of your company</div>
           </div>
           <div className="field-right">
             <input
@@ -108,7 +106,7 @@ const Preview = ({
         <div className="field-box">
           <div className="field-left">
             <div className="field">Company Email</div>
-            <div className="field-detail">Enter the email of your company.</div>
+            <div className="field-detail">Email of your company.</div>
           </div>
           <div className="field-right">
             <input
@@ -126,7 +124,7 @@ const Preview = ({
           <div className="field-left">
             <div className="field">Company Certificate</div>
             <div className="field-detail">
-              Upload your certificate to proof the genuinity of the company.
+              Certificate - proof the genuinity of the company.
             </div>
           </div>
           <div className="field-right">

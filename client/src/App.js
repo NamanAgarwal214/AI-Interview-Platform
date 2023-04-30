@@ -10,23 +10,14 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import CompanyPage from "./pages/CompanyPage";
 import ApplicantPage from "./pages/ApplicantPage";
-import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage";
 import SamplePage from "./pages/SamplePage";
-import Companies from "./components/Companies";
 import CompaniesTablePage from "./pages/CompaniesTablePage";
-import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
 import CandidateResponse from "./pages/CandidateResponse";
-import Record from "./pages/Record";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:8000";
-
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
-  // useEffect(()=>{
-  //   setIsLoggedIn(lo)
-  // }, [])
 
   return (
     <>
@@ -50,7 +41,7 @@ function App() {
         <Route exact path="/addJob" element={<CreateJob />} />
         <Route exact path="/company/dashboard" element={<CompanyPage />} />
         <Route exact path="/admin/dashboard" element={<AdminPage />} />
-        <Route exact path="/dashboard" element={<ApplicantPage />} />
+        <Route exact path="/applicant/dashboard" element={<ApplicantPage />} />
         <Route exact path="/question" element={<SamplePage />} />
         <Route exact path="/confirm" element={<ConfirmEmail />} />
         {/* <Route exact path="/startTest" element={<SamplePage />} /> */}

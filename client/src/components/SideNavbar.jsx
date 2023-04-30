@@ -54,6 +54,10 @@ const SideNavbar = ({ person, activeState, setActiveState }) => {
       setEmail(company?.email);
       setName(company?.name);
       setImage(company?.companyLogo);
+    } else {
+      const applicant = JSON.parse(localStorage.getItem("applicant"));
+      setEmail(applicant?.email);
+      setName(applicant?.name);
     }
   }, []);
   return (
@@ -198,12 +202,11 @@ const SideNavbar = ({ person, activeState, setActiveState }) => {
         <div className="sidebar-footer">
           <div className="about-company">
             <div className="company-logo">
-              {person === "admin" && <img src="/images/admin.png" alt="" />}
-              {person === "company" && <img src={image} alt="" />}
-              {/* <img
-                src="https://pbs.twimg.com/card_img/1649335561130328065/nJpZwB8N?format=png&name=medium"
-                alt=""
-              /> */}
+              {person === "admin" && <img src="/images/admin.png" alt={name} />}
+              {person === "company" && <img src={image} alt={name} />}
+              {person === "applicant" && (
+                <img src="/images/admin.png" alt={name} />
+              )}
             </div>
             <div className="company-info">
               <div className="company-name">{name}</div>

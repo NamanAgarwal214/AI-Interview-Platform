@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 // import { toast } from "react-toastify";
 
 const jobFormOne = ({ formData, nextStep, changeHandler }) => {
@@ -9,15 +10,15 @@ const jobFormOne = ({ formData, nextStep, changeHandler }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // if (!title || !description || !duration) {
-    //   toast.error("Please fill out all fields");
-    // } else {
-    //   toast.success("On to the next one!");
-    //   setTimeout(() => {
-    //     nextStep();
-    //   }, 2000);
-    // }
-    nextStep();
+    if (!title || !description || !duration) {
+      toast.error("Please fill out all fields");
+    } else {
+      toast.success("On to the next one!");
+      setTimeout(() => {
+        nextStep();
+      }, 2000);
+    }
+    // nextStep();
   };
 
   return (
@@ -45,7 +46,7 @@ const jobFormOne = ({ formData, nextStep, changeHandler }) => {
           </div>
           <div className="job-step-input">
             <div className="job-step-input-box">
-              <div className="field-label"> job Title </div>
+              <div className="field-label"> Job Title </div>
               <input
                 type="text"
                 className="field-input"
@@ -56,18 +57,18 @@ const jobFormOne = ({ formData, nextStep, changeHandler }) => {
               />
             </div>
             <div className="job-step-input-box">
-              <div className="field-label"> job description </div>
-              <input
+              <div className="field-label"> Job description </div>
+              <textarea
                 type="text"
                 className="field-input"
                 name="description"
                 value={description}
-                placeholder="Official email address of the job"
+                placeholder="Description about the job"
                 onChange={changeHandler}
               />
             </div>
             <div className="job-step-input-box">
-              <div className="field-label"> Duration of the job </div>
+              <div className="field-label"> Duration of the Job </div>
               <input
                 type="number"
                 className="field-input"

@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const Record = () => {
   const recordWebcam = useRecordWebcam({
     fileName: "test",
-    fileType: "mp4",
+    fileType: "video/mp4",
     width: 600,
     height: 800,
     disableLogs: true,
