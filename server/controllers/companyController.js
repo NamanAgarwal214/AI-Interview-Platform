@@ -5,6 +5,7 @@ const sendEmail = require("../utils/email");
 const { uploadFile, getSignUrlForFile } = require("../utils/s3");
 const { createSendToken } = require("../utils/auth");
 const Solution = require("../models/Solution");
+const Applicant = require("../models/Applicant");
 
 exports.registerCompany = async (req, res, next) => {
   try {
@@ -154,7 +155,7 @@ exports.confirmEmail = async (req, res, next) => {
     });
 
     if (user) {
-      await Company.findByIdAndUpdate(user._id,{emailVerified:true})
+      await Company.findByIdAndUpdate(user._id, { emailVerified: true });
 
       return res.status(200).json({
         message: "Email Verified",
@@ -236,41 +237,42 @@ exports.authPass = async (req, res, next) => {
   }
 };
 
-exports.report = async(req,res,next) => {
-  try{
-    const {job} = req.body
+exports.report = async (req, res, next) => {
+  try {
+    const { job } = req.body;
 
-    const solutions = await Solution.find({job}).populate('questions').lean();
+    const solutions = await Solution.find({ job })
+      .populate("questions")
+      .populate("applicant")
+      .lean();
 
-    
     solutions.forEach((s) => {
       let avg = 0;
       let solutionVideo;
-      if(s.solutionScore?.length > 0){
+      if (s.solutionScore?.length > 0) {
         let sum = s.solutionScore.reduce((a, b) => a + b);
-        avg = sum/s.questions.length;
+        avg = sum / s.questions.length;
       }
       s.avg = avg;
       // s.solutionVideos = solutionVideo
-    })
+    });
 
-    for(let i=0;i<solutions.length;i++){
-      for(let j=0;j<solutions[i].solutionVideos.length;j++){
+    for (let i = 0; i < solutions.length; i++) {
+      for (let j = 0; j < solutions[i].solutionVideos.length; j++) {
         let a = await getSignUrlForFile(solutions[i].solutionVideos[j]);
-        solutions[i].solutionVideos[j] = a.signedUrl
+        solutions[i].solutionVideos[j] = a.signedUrl;
       }
     }
 
     res.status(200).json({
-      message:"Data",
-      data:solutions
-    })
-
-  }catch (error) {
+      message: "Data",
+      data: solutions,
+    });
+  } catch (error) {
     console.log(error);
     res.status(404).json({
       status: "fail",
       message: error,
     });
   }
-}
+};
