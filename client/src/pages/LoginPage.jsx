@@ -99,7 +99,7 @@ const LoginPage = () => {
                   Login
                 </button>
               </div>
-              {(whoIsIt === "company" || whoIsIt === "applicant") && (
+              {(whoIsIt === "company") && (
                 <div className="sign-up-message">
                   <div className="msg-left"> Don't have an account yet?</div>
                   <Link

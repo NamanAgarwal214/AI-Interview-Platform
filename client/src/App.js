@@ -17,8 +17,8 @@ import ConfirmEmail from "./pages/ConfirmEmail";
 import CandidateResponse from "./pages/CandidateResponse";
 
 function App() {
-  axios.defaults.baseURL =
-    "https://aa2b-2401-4900-5d35-dbf9-f48b-c305-574f-4bca.ngrok-free.app";
+  axios.defaults.baseURL ="http://localhost:8000"
+    // "https://aa2b-2401-4900-5d35-dbf9-f48b-c305-574f-4bca.ngrok-free.app";
 
   return (
     <>

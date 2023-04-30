@@ -63,10 +63,10 @@ const StartTest = ({ jobData }) => {
                 {/* <div className="start-test-box"> */}
                 <button
                   className="start-test-button"
-                  disabled={state.submit}
+                  // disabled={false || state.submit}
                   onClick={() => startHandler(job)}
                 >
-                  {state.submit ? "Submitted" : "Start Test"}
+                  {"Start Test"}
                 </button>
                 {/* </div> */}
               </div>
