@@ -32,11 +32,12 @@ const QuestionPage = () => {
     reader.readAsDataURL(blob);
     reader.onloadend = () => {
       const dataURL = reader.result;
+      console.log();
       setUrl(dataURL);
     };
 
     const token = JSON.parse(localStorage.getItem("applicantToken"));
-
+    console.log(url, state._id, state.questions[active]._id, blob.type);
     const res = await axios.post(
       "/applicant/submitVideo",
       {
