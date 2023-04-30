@@ -15,26 +15,33 @@ const AdminOne = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { email, password } = formData;
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
 
-    axios
-      .post("/admin/register", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        toast.success("Admin registered successfully");
-        localStorage.setItem("adminToken", JSON.stringify(res.data.token));
-        <Navigate to={"/admin/dashboard"} />;
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });
+    if (!email || !password) {
+      toast.info("Please fill out all fields");
+    } else {
+      const data = new FormData();
+      data.append("email", email);
+      data.append("password", password);
+
+      axios
+        .post("/admin/register", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("Admin registered successfully");
+            setFormData({ email: "", password: "" });
+            localStorage.setItem("adminToken", JSON.stringify(res.data.token));
+            <Navigate to={"/admin/dashboard"} />;
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
+    }
   };
 
   return (
@@ -59,7 +66,7 @@ const AdminOne = () => {
                 className="field-input"
                 name="email"
                 value={formData.email}
-                placeholder="Official email address"
+                placeholder="Email address"
                 onChange={changeHandler}
               />
             </div>

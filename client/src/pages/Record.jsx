@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 const Record = () => {
   const recordWebcam = useRecordWebcam({
     fileName: "test",
-    fileType: "mp4",
+    fileType: "video/mp4",
     width: 600,
     height: 800,
     disableLogs: true,
@@ -29,8 +29,10 @@ const Record = () => {
     const reader = new FileReader(newFile);
     reader.readAsDataURL(newFile);
     reader.onloadend = () => {
-      const dataURL = reader.result;
-      console.log(dataURL);
+      if (reader.readyState == 2) {
+        const dataURL = reader.result;
+        console.log(dataURL);
+      }
       // use the data URL to display or upload the video
     };
 

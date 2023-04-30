@@ -7,7 +7,7 @@ import {
 import "../styles/QuestionPage.css";
 import { useRecordWebcam } from "react-record-webcam";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SideNavbar from "./SideNavbar";
 
@@ -17,6 +17,9 @@ const QuestionPage = () => {
   const [url, setUrl] = useState("");
 
   const [active, setActive] = useState(0);
+  const [next, setNext] = useState(false);
+
+  const navigate = useNavigate();
 
   const handle = useFullScreenHandle();
   const recordWebcam = useRecordWebcam({
@@ -35,9 +38,11 @@ const QuestionPage = () => {
     const reader = new FileReader(newFile);
     reader.readAsDataURL(newFile);
     reader.onloadend = () => {
-      dataURL = reader.result;
-      console.log(dataURL);
-      setUrl(reader.result);
+      if (reader.readyState == 2) {
+        dataURL = reader.result;
+        console.log(dataURL);
+        setUrl(reader.result);
+      }
       // use the data URL to display or upload the video
     };
     // const reader = new FileReader();
@@ -67,22 +72,24 @@ const QuestionPage = () => {
         }
       )
       .then((res) => {
-        console.log(res)
+        console.log(res);
       });
   };
 
-  const evaluateHander = async() =>{
+  const evaluateHander = async () => {
     setActive(active + 1);
     recordWebcam.status = "CLOSED";
     axios
-          .post("/applicant/evaluateScore", {
-            solution: state._id,
-            question: state.questions[active]._id,
-          })
-          .then((evalRes) => {
-            console.log(evalRes);
-          });
-  }
+      .post("/applicant/evaluateScore", {
+        solution: state._id,
+        question: state.questions[active]._id,
+      })
+      .then((evalRes) => {
+        if (active === state.questions.length - 1)
+          navigate("/applicant/dashboard", { state: { submit: true } });
+        console.log(evalRes);
+      });
+  };
 
   useEffect(() => {
     if (!handle.active) {
@@ -165,7 +172,9 @@ const QuestionPage = () => {
           <video
             ref={recordWebcam.previewRef}
             style={{
-              display: `block`,
+              display: `${
+                recordWebcam.status === "PREVIEW" ? "block" : "none"
+              }`,
               width: "70%",
               margin: "2rem auto",
             }}
@@ -174,8 +183,14 @@ const QuestionPage = () => {
             muted={recordWebcam.status !== "PREVIEW"}
           />
           <div className="question-buttons">
-            <button className="button" onClick={submitHandler}>
-              {active === state.questions.length - 1 ? "Submit" : "Upload"}
+            <button
+              className="button"
+              onClick={() => {
+                submitHandler();
+                setNext(true);
+              }}
+            >
+              Upload
             </button>
             <button
               className="button"
@@ -186,21 +201,26 @@ const QuestionPage = () => {
             >
               Attempt
             </button>
-            <button
-              className="button"
-              onClick={evaluateHander}
-              // onClick={() => {
-              //   setActive(active + 1);
-              //   recordWebcam.status = "CLOSED";
-              // }}
-              style={{
-                display: `${
-                  active === state.questions.length - 1 ? "none" : "initial"
-                }`,
-              }}
-            >
-              Next
-            </button>
+            {next && (
+              <button
+                className="button"
+                onClick={() => {
+                  evaluateHander();
+                  setNext(false);
+                }}
+                // onClick={() => {
+                //   setActive(active + 1);
+                //   recordWebcam.status = "CLOSED";
+                // }}
+                style={{
+                  display: `${
+                    active === state.questions.length - 1 ? "none" : "initial"
+                  }`,
+                }}
+              >
+                {active === state.questions.length - 1 ? "Submit" : "Next"}
+              </button>
+            )}
           </div>
         </div>
       </div>

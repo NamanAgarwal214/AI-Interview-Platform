@@ -31,6 +31,7 @@ const JobPostRight = ({ step, setStep }) => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(worksheet);
+        console.log(json);
         setApplicants(json);
       };
       reader.readAsArrayBuffer(e.target.files[0]);
