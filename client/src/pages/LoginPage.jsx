@@ -35,7 +35,7 @@ const LoginPage = () => {
               );
             if (res.data.user)
               localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
-            <Navigate to={`/${whoIsIt}/dashboard`} />;
+            // <Navigate to={`/${whoIsIt}/dashboard`} />;
             toast.success("Logged in successfully");
           })
           .catch((err) => {
