@@ -28,7 +28,10 @@ const Final = ({ logo, certificate, changeHandler, nextStep, prevStep }) => {
         </div>
         <div className="company-register-info">
           <div className="company-step-info">
-            <div className="company-step-name"> Your Company Information</div>
+            <div className="company-step-name">
+              {" "}
+              Company Logo and Information
+            </div>
             <div className="company-step-description">
               {" "}
               Enter your company information to get familiar with you.{" "}

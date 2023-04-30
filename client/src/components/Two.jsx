@@ -31,7 +31,7 @@ const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
         </div>
         <div className="company-register-info">
           <div className="company-step-info">
-            <div className="company-step-name"> Your Company Information</div>
+            <div className="company-step-name"> Your Company Location</div>
             <div className="company-step-description">
               {" "}
               Enter your company information to get familiar with you.{" "}
@@ -46,6 +46,7 @@ const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
                 className="field-input"
                 onChange={changeHandler}
                 type="text"
+                required
                 placeholder="Address of Company Headquarters"
               />
             </div>
@@ -57,6 +58,7 @@ const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
                 className="field-input"
                 onChange={changeHandler}
                 type="text"
+                required
                 placeholder="Country"
               />
             </div>

@@ -7,7 +7,7 @@ import {
 import "../styles/QuestionPage.css";
 import { useRecordWebcam } from "react-record-webcam";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SideNavbar from "./SideNavbar";
 
@@ -17,6 +17,9 @@ const QuestionPage = () => {
   const [url, setUrl] = useState("");
 
   const [active, setActive] = useState(0);
+  const [next, setNext] = useState(false);
+
+  const navigate = useNavigate();
 
   const handle = useFullScreenHandle();
   const recordWebcam = useRecordWebcam({
@@ -31,32 +34,50 @@ const QuestionPage = () => {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
     reader.onloadend = () => {
-      const dataURL = reader.result;
-      setUrl(dataURL);
+      if (reader.readyState == 2) {
+        dataURL = reader.result;
+        console.log(dataURL);
+        setUrl(reader.result);
+      }
+      // use the data URL to display or upload the video
     };
 
     const token = JSON.parse(localStorage.getItem("applicantToken"));
+    console.log(url);
+    // console.log(url, state._id, state.questions[active]._id, blob.type);
+    axios
+      .post(
+        "/applicant/submitVideo",
+        {
+          solutionVideo: url,
+          solution: state._id,
+          question: state.questions[active]._id,
+          file_type: "video/mp4",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      });
+  };
 
-    const res = await axios.post(
-      "/applicant/submitVideo",
-      {
-        solutionVideo: url,
+  const evaluateHander = async () => {
+    setActive(active + 1);
+    recordWebcam.status = "CLOSED";
+    axios
+      .post("/applicant/evaluateScore", {
         solution: state._id,
         question: state.questions[active]._id,
-        file_type: blob.type,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const evalRes = await axios.post("/applicant/evaluateScore", {
-      solution: state._id,
-      question: state.questions[active]._id,
-    });
-    console.log(evalRes);
+      })
+      .then((evalRes) => {
+        if (active === state.questions.length - 1)
+          navigate("/applicant/dashboard", { state: { submit: true } });
+        console.log(evalRes);
+      });
   };
 
   // const getFullScreenElement = () => {
@@ -158,7 +179,9 @@ const QuestionPage = () => {
           <video
             ref={recordWebcam.previewRef}
             style={{
-              display: `block`,
+              display: `${
+                recordWebcam.status === "PREVIEW" ? "block" : "none"
+              }`,
               width: "70%",
               margin: "2rem auto",
             }}
@@ -167,8 +190,14 @@ const QuestionPage = () => {
             muted={recordWebcam.status !== "PREVIEW"}
           />
           <div className="question-buttons">
-            <button className="button" onClick={submitHandler}>
-              {active === state.questions.length - 1 ? "Submit" : "Upload"}
+            <button
+              className="button"
+              onClick={() => {
+                submitHandler();
+                setNext(true);
+              }}
+            >
+              Upload
             </button>
             <button
               className="button"
@@ -179,20 +208,26 @@ const QuestionPage = () => {
             >
               Attempt
             </button>
-            <button
-              className="button"
-              onClick={() => {
-                setActive(active + 1);
-                recordWebcam.status = "CLOSED";
-              }}
-              style={{
-                display: `${
-                  active === state.questions.length - 1 ? "none" : "initial"
-                }`,
-              }}
-            >
-              Next
-            </button>
+            {next && (
+              <button
+                className="button"
+                onClick={() => {
+                  evaluateHander();
+                  setNext(false);
+                }}
+                // onClick={() => {
+                //   setActive(active + 1);
+                //   recordWebcam.status = "CLOSED";
+                // }}
+                style={{
+                  display: `${
+                    active === state.questions.length - 1 ? "none" : "initial"
+                  }`,
+                }}
+              >
+                {active === state.questions.length - 1 ? "Submit" : "Next"}
+              </button>
+            )}
           </div>
         </div>
       </div>

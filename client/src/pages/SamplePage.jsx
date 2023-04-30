@@ -1,9 +1,9 @@
 import React from "react";
 import "../styles/Sample.css";
 import SideNavbar from "../components/SideNavbar";
-import StartTest from "../components/StartTest";
+// import StartTest from "../components/StartTest";
 import QuestionPage from "../components/QuestionPage";
-import Sample from "../components/Sample";
+// import Sample from "../components/Sample";
 
 const SamplePage = () => {
   return (

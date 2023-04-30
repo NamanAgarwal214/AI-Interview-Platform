@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import SideNavbar from "../components/SideNavbar";
 import "../styles/CompanyPage.css";
 import CompanyProfile from "../components/CompanyProfile";
-import StartTest from "../components/StartTest";
-import QuestionPage from "../components/QuestionPage";
+// import StartTest from "../components/StartTest";
+// import QuestionPage from "../components/QuestionPage";
 import JobsPostedCompany from "../components/JobsPostedCompany";
 
 const CompanyPage = () => {

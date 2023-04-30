@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/StartTest.css";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const StartTest = ({ jobData }) => {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const startHandler = async (job) => {
     console.log(job);
@@ -62,9 +63,10 @@ const StartTest = ({ jobData }) => {
                 {/* <div className="start-test-box"> */}
                 <button
                   className="start-test-button"
+                  // disabled={false || state.submit}
                   onClick={() => startHandler(job)}
                 >
-                  Start Test
+                  {"Start Test"}
                 </button>
                 {/* </div> */}
               </div>

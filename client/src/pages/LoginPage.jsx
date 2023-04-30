@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginNew.css";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -21,8 +21,6 @@ const LoginPage = () => {
       data.append("email", email);
       data.append("password", password);
       try {
-        setEmail("");
-        setPassword("");
         axios
           .post(`/${whoIsIt}/login`, data, {
             headers: {
@@ -30,15 +28,19 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            if (res.data.token)
+            if (res.status === 200) {
+              setEmail("");
+              setPassword("");
               localStorage.setItem(
                 `${whoIsIt}Token`,
                 JSON.stringify(res.data.token)
               );
-            if (res.data.user)
               localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
-            navigate(`/${whoIsIt}/dashboard`);
-            toast.success("Logged in successfully");
+              navigate(`/${whoIsIt}/dashboard`);
+              toast.success("Logged in successfully");
+            } else {
+              setPassword("");
+            }
           })
           .catch((err) => {
             toast.error(err.message);
@@ -61,7 +63,7 @@ const LoginPage = () => {
             <div className="hello-msg">Hello Again!</div>
             <div className="gratitude-msg">
               {" "}
-              Login your {whoIsIt} to have a look to your dashboard.
+              Login to have a look to the {whoIsIt} dashboard.
             </div>
           </div>
           <div className="login-form-box">
@@ -74,6 +76,7 @@ const LoginPage = () => {
                   name="email"
                   value={email}
                   placeholder="Email address"
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -84,6 +87,7 @@ const LoginPage = () => {
                   className="field-input"
                   name="password"
                   value={password}
+                  required
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -95,7 +99,7 @@ const LoginPage = () => {
                   Login
                 </button>
               </div>
-              {(whoIsIt === "company" || whoIsIt === "applicant") && (
+              {(whoIsIt === "company") && (
                 <div className="sign-up-message">
                   <div className="msg-left"> Don't have an account yet?</div>
                   <Link

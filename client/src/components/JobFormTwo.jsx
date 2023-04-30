@@ -11,40 +11,57 @@ const JobFormTwo = ({
   questions,
   applicants,
 }) => {
-  const token = localStorage.getItem("companyToken");
-  const uploadApplicants = async () => {
-    const applicantsData = new FormData();
-    applicantsData.append("applicants", applicants);
-    console.log(applicants);
+  const token = JSON.parse(localStorage.getItem("companyToken"));
+
+  const uploadApplicants = async (id) => {
     try {
-      const applicantsRes = await axios.post(
-        "/jobs/addApplicants",
-        applicantsData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(applicantsRes);
+      axios
+        .post(
+          "/jobs/addApplicants",
+          { data: applicants, job: id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((applicantsRes) => {
+          console.log(applicantsRes);
+          if (applicantsRes.status === 200) {
+            toast.success(applicantsRes.data.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  const uploadQuestion = async () => {
-    const questionsData = new FormData();
-    questionsData.append("questions", questions);
-
+  const uploadQuestion = async (id) => {
     try {
-      const questionsRes = await axios.post("/question/create", questionsData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(questionsRes);
+      axios
+        .post(
+          "/question/create",
+          { data: questions, job: id },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((questionsRes) => {
+          console.log(questionsRes);
+          if (questionsRes.status === 200) {
+            toast.success(questionsRes.data.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
     } catch (error) {
       toast.error(error.message);
     }
@@ -55,25 +72,32 @@ const JobFormTwo = ({
 
     const { title, description, duration } = formData;
 
-    // if (applicants.length() === 0 || questions.length() === 0) {
-    //   toast.error("Upload file with some data");
-    // } else {
     const data = new FormData();
     data.append("title", title);
     data.append("description", description);
     data.append("duration", duration);
 
-    // uploadQuestion();
+    // console.log(applicants);
 
     try {
-      const res = await axios.post("/jobs/create", data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res);
-      uploadApplicants();
+      axios
+        .post("/jobs/create", data, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            toast.success(res.data.message);
+            if (applicants.length > 0) uploadApplicants(res.data.data._id);
+            if (questions.length > 0) uploadQuestion(res.data.data._id);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
     } catch (error) {
       toast.error(error.message);
     }
