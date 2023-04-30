@@ -4,7 +4,7 @@ import "../styles/CompanyRegister.css";
 const CompanyRegisterLeft = ({ step, whoIsIt }) => {
   return (
     <div className="company-register-steps-side">
-      <div className="logo">Logo</div>
+      <div className="logo">Intellihire</div>
       <div className="steps-box">
         <div className="company-register-steps">
           <div className="step-name-heading">Step {step}</div>

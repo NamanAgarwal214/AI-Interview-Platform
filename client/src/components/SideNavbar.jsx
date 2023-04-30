@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,14 +10,11 @@ import {
   faSquarePollVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SideNavbar.css";
-const SideNavbar = ({ person }) => {
-  const [activeState, setActiveState] = useState(
-    person === "admin"
-      ? "companies"
-      : person === "company"
-      ? "companyProfile"
-      : "applicantProfile"
-  );
+const SideNavbar = ({ person, activeState, setActiveState }) => {
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [image, setImage] = useState();
+  const navigate = useNavigate();
   const menuItemStyles = {
     root: {
       fontSize: "17px",
@@ -44,6 +42,20 @@ const SideNavbar = ({ person }) => {
       fontWeight: open ? 600 : undefined,
     }),
   };
+  useEffect(() => {
+    if (!localStorage.getItem(`${person}Token`)) navigate(`/login/${person}`);
+
+    if (person === "admin") {
+      const admin = JSON.parse(localStorage.getItem("admin"));
+      setEmail(admin?.email);
+      setName("Admin");
+    } else if (person === "company") {
+      const company = JSON.parse(localStorage.getItem("company"));
+      setEmail(company?.email);
+      setName(company?.name);
+      setImage(company?.companyLogo);
+    }
+  }, []);
   return (
     <Sidebar breakPoint="lg" backgroundColor="#3339CD">
       <div className="sidebar">
@@ -171,7 +183,12 @@ const SideNavbar = ({ person }) => {
                 />
               }
               active={activeState === "logout"}
-              onClick={() => setActiveState("logout")}
+              onClick={() => {
+                setActiveState("logout");
+                localStorage.removeItem(`${person}Token`);
+                localStorage.removeItem(`${person}`);
+                window.location.reload();
+              }}
             >
               {" "}
               Logout{" "}
@@ -181,14 +198,16 @@ const SideNavbar = ({ person }) => {
         <div className="sidebar-footer">
           <div className="about-company">
             <div className="company-logo">
-              <img
+              {person === "admin" && <img src="/images/admin.png" alt="" />}
+              {person === "company" && <img src={image} alt="" />}
+              {/* <img
                 src="https://pbs.twimg.com/card_img/1649335561130328065/nJpZwB8N?format=png&name=medium"
                 alt=""
-              />
+              /> */}
             </div>
             <div className="company-info">
-              <div className="company-name">Shivansh Joshi</div>
-              <div className="company-email">shivanshjoshi277@gmail.com</div>
+              <div className="company-name">{name}</div>
+              <div className="company-email">{email}</div>
             </div>
           </div>
         </div>

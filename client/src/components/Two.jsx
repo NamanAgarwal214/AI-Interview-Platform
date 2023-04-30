@@ -1,5 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 
 const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
   const { address, country } = formData;
@@ -21,7 +23,12 @@ const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
   return (
     <div className="company-register-info-side">
       <div className="company-register-info-box">
-        <div className="company-register-info-icon"></div>
+        <div className="company-register-info-icon">
+          <FontAwesomeIcon
+            icon={faBuilding}
+            style={{ color: "#f7f9fc", width: "40px", height: "40px" }}
+          />
+        </div>
         <div className="company-register-info">
           <div className="company-step-info">
             <div className="company-step-name"> Your Company Information</div>
@@ -55,7 +62,7 @@ const Two = ({ prevStep, nextStep, formData, changeHandler }) => {
             </div>
           </div>
           <div className="buttons">
-            <button className="back-button" type="back" onClick={prevStep}>
+            <button className="back-button-comp" type="back" onClick={prevStep}>
               Back
             </button>
 

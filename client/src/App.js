@@ -21,8 +21,7 @@ import CandidateResponse from "./pages/CandidateResponse";
 import Record from "./pages/Record";
 
 function App() {
-  axios.defaults.baseURL =
-    "https://3508-2401-4900-5d23-42f8-2cb8-5e25-5c62-40ff.ngrok-free.app";
+  axios.defaults.baseURL = "http://localhost:8000";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
   // useEffect(()=>{

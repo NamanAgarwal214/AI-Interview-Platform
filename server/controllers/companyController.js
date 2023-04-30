@@ -58,16 +58,16 @@ exports.registerCompany = async (req, res, next) => {
 
     const message = {
       verifyURL,
-      name:newCompany.name
+      name: newCompany.name,
     };
 
-    const html = "verify"
+    const html = "verify";
 
     await sendEmail({
       email: req.body.email,
       subject: "Email Verification",
       message,
-      html
+      html,
     });
 
     if (!newCompany) {
@@ -101,7 +101,7 @@ exports.loginCompany = async (req, res, next) => {
       });
     }
 
-    let company = await Company.findOne({ email });
+    let company = await Company.findOne({ email }).populate("jobs");
     if (!company) {
       return res.status(401).json({
         status: "fail",
