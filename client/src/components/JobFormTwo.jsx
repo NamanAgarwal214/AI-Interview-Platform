@@ -15,7 +15,7 @@ const JobFormTwo = ({
   const uploadApplicants = async () => {
     const applicantsData = new FormData();
     applicantsData.append("applicants", applicants);
-
+    console.log(applicants);
     try {
       const applicantsRes = await axios.post(
         "/jobs/addApplicants",
@@ -63,8 +63,7 @@ const JobFormTwo = ({
     data.append("description", description);
     data.append("duration", duration);
 
-    uploadApplicants();
-    uploadQuestion();
+    // uploadQuestion();
 
     try {
       const res = await axios.post("/jobs/create", data, {
@@ -74,6 +73,7 @@ const JobFormTwo = ({
         },
       });
       console.log(res);
+      uploadApplicants();
     } catch (error) {
       toast.error(error.message);
     }

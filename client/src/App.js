@@ -18,10 +18,11 @@ import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
 import CandidateResponse from "./pages/CandidateResponse";
+import Record from "./pages/Record";
 
 function App() {
   axios.defaults.baseURL =
-    "https://a0ea-2401-4900-5d1f-a915-7d0f-1c28-814b-84d2.ngrok-free.app";
+    "https://3508-2401-4900-5d23-42f8-2cb8-5e25-5c62-40ff.ngrok-free.app";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
   // useEffect(()=>{
@@ -55,7 +56,11 @@ function App() {
         <Route exact path="/confirm" element={<ConfirmEmail />} />
         {/* <Route exact path="/startTest" element={<SamplePage />} /> */}
         <Route exact path="/companies" element={<CompaniesTablePage />} />
-        <Route exact path="/candidate/response" element={<CandidateResponse />} />
+        <Route
+          exact
+          path="/candidate/response"
+          element={<CandidateResponse />}
+        />
       </Routes>
     </>
   );
