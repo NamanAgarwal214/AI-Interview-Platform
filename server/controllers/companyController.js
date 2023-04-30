@@ -154,8 +154,7 @@ exports.confirmEmail = async (req, res, next) => {
     });
 
     if (user) {
-      user.emailVerified = true;
-      await user.save();
+      await Company.findByIdAndUpdate(user._id,{emailVerified:true})
 
       return res.status(200).json({
         message: "Email Verified",
