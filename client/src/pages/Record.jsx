@@ -5,7 +5,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 const Record = () => {
   const recordWebcam = useRecordWebcam({
     fileName: "test",
-    mimeType: "video/x-matroska;codecs=avc1",
+    fileType: "mp4",
     width: 600,
     height: 800,
     disableLogs: true,
@@ -21,14 +21,26 @@ const Record = () => {
 
   const getRecordingFile = async () => {
     const blob = await recordWebcam.getRecording();
-    console.log(blob);
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
+    console.log({ blob });
+
+    const newFile = new File([blob], "video-title.mp4", {
+      type: "video/mp4",
+    });
+    const reader = new FileReader(newFile);
+    reader.readAsDataURL(newFile);
     reader.onloadend = () => {
       const dataURL = reader.result;
       console.log(dataURL);
       // use the data URL to display or upload the video
     };
+
+    // const reader = new FileReader();
+    // reader.readAsDataURL(blob);
+    // reader.onloadend = () => {
+    //   const dataURL = reader.result;
+    //   console.log(dataURL);
+    //   // use the data URL to display or upload the video
+    // };
   };
 
   return (

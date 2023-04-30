@@ -17,10 +17,11 @@ import Companies from "./components/Companies";
 import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
+import Record from "./pages/Record";
 
 function App() {
   axios.defaults.baseURL =
-    "https://a0ea-2401-4900-5d1f-a915-7d0f-1c28-814b-84d2.ngrok-free.app";
+    "https://3508-2401-4900-5d23-42f8-2cb8-5e25-5c62-40ff.ngrok-free.app";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
   // useEffect(()=>{
