@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/Preview.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Preview = ({
   formData,
@@ -12,8 +12,10 @@ const Preview = ({
   fileTypeLogo,
   fileTypeCerti,
 }) => {
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     // const response = await axios();
     console.log(fileTypeLogo);
     const { name, email, password, address, country } = formData;
@@ -36,7 +38,7 @@ const Preview = ({
       })
       .then((res) => {
         toast.success(res.data.message);
-        <Navigate to={"/confirm"} />;
+        navigate("/confirm");
       })
       .catch((err) => {
         toast.error(err.message);

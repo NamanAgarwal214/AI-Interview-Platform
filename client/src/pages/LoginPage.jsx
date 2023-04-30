@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/LoginNew.css";
 import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +7,7 @@ import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const { whoIsIt } = useParams();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +37,7 @@ const LoginPage = () => {
               );
             if (res.data.user)
               localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
-            // <Navigate to={`/${whoIsIt}/dashboard`} />;
+            navigate(`/${whoIsIt}/dashboard`);
             toast.success("Logged in successfully");
           })
           .catch((err) => {
@@ -93,7 +95,7 @@ const LoginPage = () => {
                   Login
                 </button>
               </div>
-              {(whoIsIt === "company" || whoIsIt === "admin") && (
+              {(whoIsIt === "company" || whoIsIt === "applicant") && (
                 <div className="sign-up-message">
                   <div className="msg-left"> Don't have an account yet?</div>
                   <Link

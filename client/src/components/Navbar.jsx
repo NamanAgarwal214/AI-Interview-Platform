@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 // import { HashLink } from "react-router-hash-link";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
-
+  const [dropdownActive, setDropdownActive] = useState(false);
+  const navigate = useNavigate();
   return (
     <nav className="navbar">
       <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
@@ -23,7 +25,7 @@ const Navbar = () => {
               Home
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link smooth to="/about">
               About Us
             </Link>
@@ -32,9 +34,39 @@ const Navbar = () => {
             <Link smooth to="/contact">
               Contact Us
             </Link>
-          </li>
+          </li> */}
           <li>
-            <Link to="/login">Login</Link>
+            <Link
+              onClick={(e) => {
+                setDropdownActive((prev) => !prev);
+              }}
+            >
+              Login
+            </Link>
+            <div className="dropdown">
+              <div
+                className={`${"dropDownMenu"} ${dropdownActive && "is-active"}`}
+              >
+                <button
+                  className="dropdownBtn"
+                  onClick={() => navigate("/login/company")}
+                >
+                  <div>Company</div>
+                </button>
+                <button
+                  className="dropdownBtn"
+                  onClick={() => navigate("/login/applicant")}
+                >
+                  <div>Applicant</div>
+                </button>
+                <button
+                  className="dropdownBtn"
+                  onClick={() => navigate("/login/admin")}
+                >
+                  <div>Admin</div>
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
       </div>

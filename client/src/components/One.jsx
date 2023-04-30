@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBuilding } from "@fortawesome/free-solid-svg-icons";
 
 const One = ({ nextStep, formData, changeHandler }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,7 +27,10 @@ const One = ({ nextStep, formData, changeHandler }) => {
     <div className="company-register-info-side">
       <div className="company-register-info-box">
         <div className="company-register-info-icon">
-          {/* <FontAwesomeIcon icon={faCaretUp} size="3x" /> */}
+          <FontAwesomeIcon
+            icon={faBuilding}
+            style={{ color: "#f7f9fc", width: "40px", height: "40px" }}
+          />
         </div>
         <div className="company-register-info">
           <div className="company-step-info">
