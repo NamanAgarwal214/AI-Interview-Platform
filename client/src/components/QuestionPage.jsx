@@ -28,55 +28,54 @@ const QuestionPage = () => {
   const submitHandler = async () => {
     const blob = await recordWebcam.getRecording();
     console.log(blob);
-    const newFile = new File([blob], "video-title.mp4", {
-      type: "video/mp4",
-    });
-    let dataURL = "";
-    const reader = new FileReader(newFile);
-    reader.readAsDataURL(newFile);
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
     reader.onloadend = () => {
-      dataURL = reader.result;
-      console.log(dataURL);
-      setUrl(reader.result);
-      // use the data URL to display or upload the video
+      const dataURL = reader.result;
+      setUrl(dataURL);
     };
-    // const reader = new FileReader();
-    // reader.readAsDataURL(blob);
-    // reader.onloadend = () => {
-    //   const dataURL = reader.result;
-    //   console.log();
-    //   setUrl(dataURL);
-    // };
 
     const token = JSON.parse(localStorage.getItem("applicantToken"));
-    console.log(url);
-    // console.log(url, state._id, state.questions[active]._id, blob.type);
-    axios
-      .post(
-        "/applicant/submitVideo",
-        {
-          solutionVideo: url,
-          solution: state._id,
-          question: state.questions[active]._id,
-          file_type: "video/mp4",
+
+    const res = await axios.post(
+      "/applicant/submitVideo",
+      {
+        solutionVideo: url,
+        solution: state._id,
+        question: state.questions[active]._id,
+        file_type: blob.type,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((res) => {
-        axios
-          .post("/applicant/evaluateScore", {
-            solution: state._id,
-            question: state.questions[active]._id,
-          })
-          .then((evalRes) => {
-            console.log(evalRes);
-          });
-      });
+      }
+    );
+
+    const evalRes = await axios.post("/applicant/evaluateScore", {
+      solution: state._id,
+      question: state.questions[active]._id,
+    });
+    console.log(evalRes);
   };
+
+  // const getFullScreenElement = () => {
+  //   return (
+  //     document.fullscreenElement ||
+  //     document.webkitFullscreenElement ||
+  //     document.mozFullscreenElement ||
+  //     document.msFullscreenElement
+  //   );
+  // };
+
+  // function toggle() {
+  //   if (getFullScreenElement()) {
+  //     if (confirm("are you sure")) handle.exit();
+  //     else {
+  //       handle.enter();
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     if (!handle.active) {

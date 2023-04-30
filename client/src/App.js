@@ -17,7 +17,7 @@ import Companies from "./components/Companies";
 import CompaniesTablePage from "./pages/CompaniesTablePage";
 import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
-import CandidateResponse from "./pages/CandidateResponse";
+import CandidateResponse from "./components/CandidateResponse";
 import Record from "./pages/Record";
 
 function App() {
