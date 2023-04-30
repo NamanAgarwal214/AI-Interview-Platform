@@ -8,7 +8,7 @@ const Register = () => {
   return (
     <>
       {whoIsIt === "company" ? (
-        <CompanyRegister />
+        <CompanyRegister whoIsIt={whoIsIt} />
       ) : (
         <AdminRegister whoIsIt={whoIsIt} />
       )}
