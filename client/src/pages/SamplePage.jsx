@@ -7,7 +7,7 @@ import QuestionPage from "../components/QuestionPage";
 const SamplePage = () => {
   return (
     <div className="sample-page">
-      <SideNavbar />
+      <SideNavbar person={"applicant"} />
       <QuestionPage />
     </div>
   );

@@ -10,9 +10,9 @@ const Navbar = () => {
     <nav className="navbar">
       <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
         <div className="navbar__slogan">
-          <div className="navbar__slogan__logo">
+          {/* <div className="navbar__slogan__logo">
             <img src="" alt="logo" />
-          </div>
+          </div> */}
           <div className="navbar__slogan__name">IntelliHire</div>
         </div>
       </Link>
