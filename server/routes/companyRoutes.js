@@ -5,5 +5,6 @@ const companyController = require('../controllers/companyController');
 router.post("/register",companyController.registerCompany);
 router.post("/login",companyController.loginCompany);
 router.get("/verifyMail/:code/:userId",companyController.confirmEmail);
+router.post("/report",companyController.report);
 
 module.exports = router
