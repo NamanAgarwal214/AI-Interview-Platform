@@ -29,8 +29,10 @@ const Record = () => {
     const reader = new FileReader(newFile);
     reader.readAsDataURL(newFile);
     reader.onloadend = () => {
-      const dataURL = reader.result;
-      console.log(dataURL);
+      if (reader.readyState == 2) {
+        const dataURL = reader.result;
+        console.log(dataURL);
+      }
       // use the data URL to display or upload the video
     };
 
