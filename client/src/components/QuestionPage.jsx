@@ -16,10 +16,12 @@ const QuestionPage = () => {
 
   const [url, setUrl] = useState("");
 
+  const [active, setActive] = useState(0);
+
   const handle = useFullScreenHandle();
   const recordWebcam = useRecordWebcam({
     fileName: "test",
-    mimeType: "video/x-matroska;codecs=avc1",
+    mimeType: "video/mp4",
     disableLogs: true,
   });
 
@@ -31,27 +33,49 @@ const QuestionPage = () => {
     reader.onloadend = () => {
       const dataURL = reader.result;
       setUrl(dataURL);
-      console.log(dataURL);
-      // use the data URL to display or upload the video
     };
 
     const token = JSON.parse(localStorage.getItem("applicantToken"));
 
-    const data = new FormData();
-    data.append("solutionVideo", url);
-    data.append("solution", state._id);
-    data.append("question", state.question);
-
-    const res = await axios.post("/applicant/submitVideo", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const res = await axios.post(
+      "/applicant/submitVideo",
+      {
+        solutionVideo: url,
+        solution: state._id,
+        question: state.questions[active]._id,
+        file_type: blob.type,
       },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const evalRes = await axios.post("/applicant/evaluateScore", {
+      solution: state._id,
+      question: state.questions[active]._id,
     });
-    const evalData = new FormData();
-    evalData.append("solution", state._id);
-    evalData.append("question", state.question);
-    const evalRes = await axios.post("/applicant/evaluateScore", evalData);
+    console.log(evalRes);
   };
+
+  // const getFullScreenElement = () => {
+  //   return (
+  //     document.fullscreenElement ||
+  //     document.webkitFullscreenElement ||
+  //     document.mozFullscreenElement ||
+  //     document.msFullscreenElement
+  //   );
+  // };
+
+  // function toggle() {
+  //   if (getFullScreenElement()) {
+  //     if (confirm("are you sure")) handle.exit();
+  //     else {
+  //       handle.enter();
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     if (!handle.active) {
@@ -69,7 +93,7 @@ const QuestionPage = () => {
             </div>
             <div className="question-heading-box">
               <div className="question-heading">Questions</div>
-              <div className="no-of-questions">{12}</div>
+              <div className="no-of-questions">{state.questions.length}</div>
             </div>
             <div className="question-subtext">
               These are the questions corresponding to the job you have applied
@@ -88,12 +112,9 @@ const QuestionPage = () => {
               </div>
             </div>
             <div className="question">
-              <div className="question-no">1</div>
+              <div className="question-no">{active + 1}</div>
               <div className="question-statement">
-                Where do you see yourself five years from now?bh bahb gabgb sgb
-                shhs snhsb sb sb bs sbhbshbshbsh sb sb sbs bgsb gsb hjs jisbjh
-                kbg b?hbhjb ghbgv gcdaszweaeas fgfhjgkjhfy thdtrcgh hbhmhv fcfcd
-                fcvygbh bhhnn?
+                {state.questions[active].question}
               </div>
             </div>
           </div>
@@ -107,6 +128,8 @@ const QuestionPage = () => {
                     ? "block"
                     : "none"
                 }`,
+                width: "100vw",
+                height: "90vh",
               }}
               autoPlay
               muted
@@ -141,11 +164,11 @@ const QuestionPage = () => {
             }}
             autoPlay
             loop
-            muted
+            muted={recordWebcam.status !== "PREVIEW"}
           />
           <div className="question-buttons">
             <button className="button" onClick={submitHandler}>
-              Upload
+              {active === state.questions.length - 1 ? "Submit" : "Upload"}
             </button>
             <button
               className="button"
@@ -154,9 +177,22 @@ const QuestionPage = () => {
                 recordWebcam.open();
               }}
             >
-              Reattempt
+              Attempt
             </button>
-            <button className="button">Next</button>
+            <button
+              className="button"
+              onClick={() => {
+                setActive(active + 1);
+                recordWebcam.status = "CLOSED";
+              }}
+              style={{
+                display: `${
+                  active === state.questions.length - 1 ? "none" : "initial"
+                }`,
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
@@ -169,16 +205,16 @@ const QuestionPage = () => {
           <div className="attempted-info">
             <div className="info-box">
               <div className="box-label">Questions:</div>
-              <div className="box-value">12</div>
+              <div className="box-value">{state.questions.length}</div>
             </div>
             <div className="info-box">
               <div className="box-label">Attempted:</div>
-              <div className="box-value">4</div>
+              <div className="box-value">{active}</div>
             </div>
           </div>
         </div>
         <div className="question-status">
-          {[...Array(4).keys()].map((i) => (
+          {[...Array(active).keys()].map((i) => (
             <div className="each-question">
               <div className="question-info">
                 <div className="question-number">Question {i + 1}</div>
@@ -194,10 +230,10 @@ const QuestionPage = () => {
               </div>
             </div>
           ))}
-          {[...Array(8).keys()].map((i) => (
+          {[...Array(state.questions.length - active).keys()].map((i) => (
             <div className="each-question">
               <div className="question-info">
-                <div className="question-number">Question {i + 5}</div>
+                <div className="question-number">Question {1 + active + i}</div>
                 <div className="question-attempts">
                   Number of attempts left : 3
                 </div>
