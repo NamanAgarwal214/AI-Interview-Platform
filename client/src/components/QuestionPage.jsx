@@ -67,7 +67,14 @@ const QuestionPage = () => {
         }
       )
       .then((res) => {
-        axios
+        console.log(res)
+      });
+  };
+
+  const evaluateHander = async() =>{
+    setActive(active + 1);
+    recordWebcam.status = "CLOSED";
+    axios
           .post("/applicant/evaluateScore", {
             solution: state._id,
             question: state.questions[active]._id,
@@ -75,8 +82,7 @@ const QuestionPage = () => {
           .then((evalRes) => {
             console.log(evalRes);
           });
-      });
-  };
+  }
 
   useEffect(() => {
     if (!handle.active) {
@@ -182,10 +188,11 @@ const QuestionPage = () => {
             </button>
             <button
               className="button"
-              onClick={() => {
-                setActive(active + 1);
-                recordWebcam.status = "CLOSED";
-              }}
+              onClick={evaluateHander}
+              // onClick={() => {
+              //   setActive(active + 1);
+              //   recordWebcam.status = "CLOSED";
+              // }}
               style={{
                 display: `${
                   active === state.questions.length - 1 ? "none" : "initial"
