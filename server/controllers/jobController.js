@@ -33,14 +33,23 @@ exports.createJob = async (req, res, next) => {
 exports.addApplicants = async (req, res, next) => {
   try {
     const data = req.body.data;
+    const job = await Jobs.findById(req.body.job);
+    const company = await Company.findById(job.company)
     data.forEach(async (d) => {
       const old_user = await Applicant.findOne({ email: d.email });
+      console.log(d.email)
       if (old_user) {
-        const message = `Congrats on being shortlisted!`;
+        const message = {
+            name:old_user.name,
+            role: job.title,
+            company: company.name
+        };
+        const html = "shortlist"
         await sendEmail({
           email: d.email,
           subject: "Shortlisted for interview",
-          message,
+          html,
+          message
         });
         await Applicant.updateOne(
           { email: d.email },
@@ -53,15 +62,23 @@ exports.addApplicants = async (req, res, next) => {
       } else {
         d.password = `${d.name.split(" ").join()}@1234`;
         d.job = [req.body.job];
-        const message = `Congrats on being shortlisted!Your email and password for Job is ${d.email} and pass is ${d.password}`;
+        
+        const app = await Applicant.create(d);
+        const html = "welcome"
+        const message = {
+            name:app.name,
+            password:d.password,
+            role: job.title,
+            company: company.name
+        };
 
         await sendEmail({
           email: d.email,
           subject: "Login Creds",
-          message,
+          html,
+          message
         });
 
-        const app = await Applicant.create(d);
         if (!app) {
           return res.status(400).json({
             message: `Failed to add applicant ${d.email}`,

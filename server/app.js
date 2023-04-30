@@ -18,9 +18,12 @@ app.use(cookieParser())
 dotenv.config({ path: "./config/config.env" });
 connectDB();
 
+
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
+app.set("views", path.join(__dirname, "../views"));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
