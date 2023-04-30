@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/CompanyRegister.css";
 
-const CompanyRegisterLeft = ({ step }) => {
+const CompanyRegisterLeft = ({ step, whoIsIt }) => {
   return (
     <div className="company-register-steps-side">
       <div className="logo">Logo</div>

@@ -1,0 +1,45 @@
+.table-page {
+  display: flex;
+  background-color: #f1f6f9;
+  width: 100%;
+}
+.table-box {
+  display: flex;
+  margin: 40px;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+.table-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.table {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 20px;
+}
+.jobs-button {
+  display: flex;
+  justify-content: center;
+  color: #f1f6f9;
+  width: 60%;
+  height: 30px;
+  background-color: #083aa9;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+.jobs-button div {
+  display: flex;
+  align-self: center;
+}
+.jobs-button:hover {
+  color: white;
+  background-color: #002e94;
+}

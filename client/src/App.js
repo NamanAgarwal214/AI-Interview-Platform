@@ -13,6 +13,8 @@ import ApplicantPage from "./pages/ApplicantPage";
 import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage";
 import SamplePage from "./pages/SamplePage";
+import Companies from "./components/Companies";
+import CompaniesTablePage from "./pages/CompaniesTablePage";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:8000";
@@ -46,6 +48,7 @@ function App() {
         <Route exact path="/admin/dashboard" element={<AdminPage />} />
         <Route exact path="/dashboard" element={<ApplicantPage />} />
         <Route exact path="/startTest" element={<SamplePage />} />
+        <Route exact path="/companies" element={<CompaniesTablePage />} />
       </Routes>
     </>
   );

@@ -3,12 +3,12 @@ import "../styles/CompanyRegister.css";
 import CompanyRegisterLeft from "./CompanyRegisterLeft";
 import CompanyRegisterRight from "./CompanyRegisterRight";
 
-const CompanyRegister = () => {
+const CompanyRegister = ({ whoIsIt }) => {
   const [step, setStep] = useState(1);
   return (
     <div className="company-register-multistep">
       <CompanyRegisterLeft step={step} />
-      <CompanyRegisterRight step={step} setStep={setStep} />
+      <CompanyRegisterRight step={step} setStep={setStep} whoIsIt={whoIsIt} />
     </div>
   );
 };

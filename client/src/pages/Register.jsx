@@ -5,10 +5,11 @@ import AdminRegister from "../components/AdminRegister";
 
 const Register = () => {
   const { whoIsIt } = useParams();
+  console.log(whoIsIt, "WHi");
   return (
     <>
       {whoIsIt === "company" ? (
-        <CompanyRegister />
+        <CompanyRegister whoIsIt={whoIsIt} />
       ) : (
         <AdminRegister whoIsIt={whoIsIt} />
       )}

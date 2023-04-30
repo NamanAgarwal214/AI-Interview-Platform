@@ -9,7 +9,7 @@ import {
   faSquarePollVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import "../styles/SideNavbar.css";
-const SideNavbar = () => {
+const SideNavbar = ({ person }) => {
   const menuItemStyles = {
     root: {
       fontSize: "17px",
@@ -41,80 +41,95 @@ const SideNavbar = () => {
     <Sidebar breakPoint="lg" backgroundColor="#3339CD">
       <div className="sidebar">
         <div className="sidebar-head">
-          <div className="logo-navbar">Logo</div>
+          <div className="logo-navbar">Intellihire</div>
           <Menu menuItemStyles={menuItemStyles}>
             {/* <SubMenu label="Company">
           <MenuItem> Pie charts </MenuItem>
           <MenuItem> Line charts </MenuItem>
         </SubMenu> */}
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faBuilding}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-              active={true}
-            >
-              {" "}
-              Company Profile{" "}
-            </MenuItem>
+            {person === "admin" && (
+              <MenuItem
+                icon={
+                  <FontAwesomeIcon
+                    icon={faBuilding}
+                    style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
+                  />
+                }
+              >
+                {" "}
+                Companies{" "}
+              </MenuItem>
+            )}
+            {person === "company" && (
+              <>
+                <MenuItem
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faBuilding}
+                      style={{
+                        color: "#f7f9fc",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  }
+                  active={true}
+                >
+                  {" "}
+                  Company Profile{" "}
+                </MenuItem>
+                <MenuItem
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faAddressCard}
+                      style={{
+                        color: "#f7f9fc",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  }
+                >
+                  {" "}
+                  Jobs Posted{" "}
+                </MenuItem>
+              </>
+            )}
+            {person === "applicant" && (
+              <>
+                <MenuItem
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      style={{
+                        color: "#f7f9fc",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  }
+                >
+                  {" "}
+                  Applicant Profile{" "}
+                </MenuItem>
+                <MenuItem
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faSquarePollVertical}
+                      style={{
+                        color: "#f7f9fc",
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                  }
+                >
+                  {" "}
+                  Results{" "}
+                </MenuItem>
+              </>
+            )}
 
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faUser}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-            >
-              {" "}
-              Applicant Profile{" "}
-            </MenuItem>
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faSquarePollVertical}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-            >
-              {" "}
-              Results{" "}
-            </MenuItem>
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faUser}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-            >
-              {" "}
-              Admin Profile{" "}
-            </MenuItem>
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faBuilding}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-            >
-              {" "}
-              Companies{" "}
-            </MenuItem>
-            <MenuItem
-              icon={
-                <FontAwesomeIcon
-                  icon={faAddressCard}
-                  style={{ color: "#f7f9fc", width: "20px", height: "20px" }}
-                />
-              }
-            >
-              {" "}
-              Jobs Posted{" "}
-            </MenuItem>
             <MenuItem
               icon={
                 <FontAwesomeIcon
