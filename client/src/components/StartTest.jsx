@@ -1,24 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/StartTest.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const StartTest = ({ jobData }) => {
-  const [job, setJob] = useState([]);
+  const navigate = useNavigate();
 
-  console.log(jobData);
-  const startHandler = async () => {
-    // const data = new FormData();
-    // data.append("job", job.id);
-    // const token = JSON.parse(localStorage.getItem("applicantToken"));
-    // axios
-    //   .post("/applicant/startQuiz", data, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   });
+  const startHandler = async (id) => {
+    console.log(id);
+    const data = new FormData();
+    data.append("job", id);
+    const token = JSON.parse(localStorage.getItem("applicantToken"));
+    axios
+      .post("/applicant/startQuiz", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        toast.success("started");
+        console.log(res);
+        navigate("/question", { state: res.data.data });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   return (
@@ -26,24 +33,21 @@ const StartTest = ({ jobData }) => {
       <div className="start-test-left">
         <div className="test-job-info">
           <div className="job-type">Jobs</div>
-          {[...Array(8).keys()].map((i) => (
+          {jobData.map((job) => (
             <div className="about-job-card">
               <div className="about-job-info">
-                <div className="heading-about-job">Job Title</div>
-                <div className="job-description">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has
-                </div>
+                <div className="heading-about-job">{job.title}</div>
+                <div className="job-description">{job.description}</div>
               </div>
               <div className="company-logo-box">
                 {/* <div className="company-logo-test">
                 <img src="/images/google.png" alt="" />
               </div> */}
                 {/* <div className="start-test-box"> */}
-                <button className="start-test-button" onClick={startHandler}>
+                <button
+                  className="start-test-button"
+                  onClick={() => startHandler(job._id)}
+                >
                   Start Test
                 </button>
                 {/* </div> */}

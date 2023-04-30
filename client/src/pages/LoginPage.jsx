@@ -28,13 +28,14 @@ const LoginPage = () => {
             },
           })
           .then((res) => {
-            localStorage.setItem(
-              `${whoIsIt}Token`,
-              JSON.stringify(res.data.token)
-            );
+            if (res.data.token)
+              localStorage.setItem(
+                `${whoIsIt}Token`,
+                JSON.stringify(res.data.token)
+              );
             if (res.data.user)
-              localStorage.setItem(`company`, JSON.stringify(res.data.user));
-            <Navigate to={`/${whoIsIt}/dashboard`} />;
+              localStorage.setItem(`${whoIsIt}`, JSON.stringify(res.data.user));
+            // <Navigate to={`/${whoIsIt}/dashboard`} />;
             toast.success("Logged in successfully");
           })
           .catch((err) => {

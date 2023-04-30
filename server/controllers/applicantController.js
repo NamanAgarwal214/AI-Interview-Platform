@@ -4,10 +4,13 @@ const { createSendToken } = require("../utils/auth");
 const { uploadFile, getSignUrlForFile, downloadVideo } = require("../utils/s3");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const Solution = require("../models/Solution");
+const Solution = require('../models/Solution')
+const { PythonShell } = require('python-shell');
+
 
 const axios = require("axios");
 const fs = require("fs");
+const Question = require('../models/Question');
 
 exports.loginApplicant = async (req, res, next) => {
   try {
@@ -148,120 +151,150 @@ exports.authPass = async (req, res, next) => {
 };
 
 exports.startQuiz = async (req, res, next) => {
-  try {
-    const { job } = req.body;
-    const user = req.user.id;
-    const jobDetails = await Job.findOne({
-      _id: job,
-      applicants: { $in: user },
-    });
+    try {
+        const { job } = req.body;
+        const user = req.user.id;
+        console.log(req.user)
+        const jobDetails = await Job.findOne({
+            _id: job,
+            applicants: { $in: user }
+        });
 
-    console.log(jobDetails);
-    if (!jobDetails) {
-      return res.status(401).json({
-        message: "User cannot access the quiz",
-      });
+        console.log(jobDetails)
+        if (!jobDetails) {
+            return res.status(401).json({
+                message: "User cannot access the quiz"
+            })
+        }
+
+        const questions = jobDetails.questions
+
+        const solve = await Solution.create({
+            job,
+            applicant: user,
+            questions
+        });
+
+        if (solve) {
+            await Applicant.findByIdAndUpdate(user,{ $push: { solutions: solve } })
+            return res.status(200).json({
+                message: "Start the quiz",
+                data: solve
+            })
+        }
+
+        return res.status(400).json({
+            message: "Error occured"
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: "fail",
+            message: error,
+        });
     }
-
-    const questions = jobDetails.questions;
-
-    const solve = await Solution.create({
-      job,
-      applicant: user,
-      questions,
-    });
-
-    if (solve) {
-      return res.status(200).json({
-        message: "Start the quiz",
-        data: solve,
-      });
-    }
-
-    return res.status(400).json({
-      message: "Error occured",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "fail",
-      message: error,
-    });
-  }
 };
 
 async function transcribe() {
-  const path = require("path");
-  const FormData = require("form-data");
-  const OPENAI_API_KEY = "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";
-  const filePath = path.join("temp", "down.mp4");
-  const model = "whisper-1";
-  const formData = new FormData();
-  formData.append("model", model);
-  formData.append("file", fs.createReadStream(filePath));
+    const path = require("path");
+    const FormData = require("form-data");
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const filePath = path.join('temp', "down.mp4");
+    const model = "whisper-1";
+    const formData = new FormData();
+    formData.append("model", model);
+    formData.append("file", fs.createReadStream(filePath));
 
-  const result = await axios.post(
-    "https://api.openai.com/v1/audio/transcriptions",
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-      },
-    }
-  );
+    const result = await axios
+        .post("https://api.openai.com/v1/audio/transcriptions", formData, {
+            headers: {
+                Authorization: `Bearer ${OPENAI_API_KEY}`,
+                "Content-Type": `multipart/form-data; boundary=${formData._boundary}`
+            }
+        })
 
-  console.log(result);
 
-  return result.data.text;
+    return result.data.text;
 }
 
 exports.submitVideo = async (req, res, next) => {
-  try {
-    let { solution, solutionVideo, question } = req.body;
+    try {
+        let { solution, solutionVideo, question } = req.body
 
-    const solve = await Solution.findById(solution);
-    if (!solve) {
-      return res.status(400).json({
-        message: "No such quiz exist",
-      });
+        const solve = await Solution.findById(solution);
+        if (!solve) {
+            return res.status(400).json({
+                message: "No such quiz exist"
+            })
+        }
+
+        const base64String = solutionVideo.replace(/^data:video\/\w+;base64,/, "");
+        const buffVideo = Buffer.from(base64String, "base64");
+
+        const file_name = `/${solution}/${req.user.id}/${question}`
+        const file_type = req.body.file_type;
+
+        await uploadFile(buffVideo, file_name, file_type)
+        solutionVideo = file_name
+
+        await downloadVideo(solutionVideo);
+        
+
+        // console.log(score);
+        await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
+
+        res.json({
+            message: "Answer Submited"
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: "fail",
+            message: error,
+        });
     }
+}
 
-    const base64String = solutionVideo.replace(/^data:video\/\w+;base64,/, "");
-    const buffVideo = Buffer.from(base64String, "base64");
+exports.evaluateScore = async (req, res, next) => {
+    try {
+        let { solution, question } = req.body
 
-    const file_name = `/${solution}/${req.user.id}/${question}`;
-    const file_type = req.body.file_type;
+        const q = await Question.findById(question)
+        // console.log(q)
 
-    await uploadFile(buffVideo, file_name, file_type);
-    solutionVideo = file_name;
+        const solutionText = await transcribe();
+        console.log(solutionText)
+        // // fs.unlinkSync(writeStream.writeStream);
 
-    const writeStream = await downloadVideo(solutionVideo);
-    const solutionText = await transcribe();
-    // console.log(solutionText)
-    // fs.unlinkSync(writeStream.writeStream);
+        let options = {
+            mode: 'text',
+            pythonOptions: ['-u'], // get print results in real-time
+            args: [q.question,q.expectedAnswer,solutionText] //An argument which can be accessed in the script using sys.argv[1]
+        };
+        let score;
+        await PythonShell.run('service.py', options).then(message => {
+            console.log(message[0])
+            let similarityScore = Number(message[0].split(" ")[1])/Number(message[0].split(" ")[0])
+            score = similarityScore
+        });
 
-    res.json({
-      message: solutionText,
-    });
+        await Solution.findByIdAndUpdate(solution,{ $push: { solutionTexts: solutionText } })
+        await Solution.findByIdAndUpdate(solution,{ $push: { solutionScore: score } })
 
-    // const updatedSolve = await Solution.findByIdAndUpdate(solution, { $push: { solutionVideos: solutionVideo } }, { new: true })
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "fail",
-      message: error,
-    });
-  }
-};
+        // console.log(score)
+        return  res.status(200).json({
+            message:"Evaluated",
+        })
 
-exports.test = async (req, res, next) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: "fail",
-      messexpected_answer: error,
-    });
-  }
-};
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: "fail",
+            messexpected_answer: error,
+        });
+    }
+}

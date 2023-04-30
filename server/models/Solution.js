@@ -15,7 +15,8 @@ const SolutionSchema = new Schema({
         ref:"Question"
     }],
     solutionVideos:[],
-    solutionTexts:[]
+    solutionTexts:[],
+    solutionScore:[]
 },{
     timestamps: true
 })

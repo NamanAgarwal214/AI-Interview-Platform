@@ -73,7 +73,13 @@ exports.loginAdmin = async (req, res, next) => {
 
 exports.companyDetails = async (req, res, next) => {
   try {
-    let companies = await Company.find({}).populate("jobs");
+    let companies = await Company.find({}).populate({
+      path: "jobs",
+      populate: [{
+          path: "applicants",
+          model: "Applicant"
+      }]
+  });;
 
     for (let i = 0; i < companies.length; i++) {
       let companyLogo = await getSignUrlForFile(companies[i].companyLogo);

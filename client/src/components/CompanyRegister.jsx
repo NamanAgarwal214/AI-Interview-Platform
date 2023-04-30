@@ -8,7 +8,7 @@ const CompanyRegister = ({ whoIsIt }) => {
   return (
     <div className="company-register-multistep">
       <CompanyRegisterLeft step={step} />
-      <CompanyRegisterRight step={step} setStep={setStep} whoIsIt={whoIsIt} />
+      <CompanyRegisterRight whoIsIt={whoIsIt} step={step} setStep={setStep} />
     </div>
   );
 };
