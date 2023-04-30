@@ -7,25 +7,41 @@ import { useNavigate } from "react-router-dom";
 const StartTest = ({ jobData }) => {
   const navigate = useNavigate();
 
-  const startHandler = async (id) => {
-    console.log(id);
-    const data = new FormData();
-    data.append("job", id);
+  const startHandler = async (job) => {
+    console.log(job);
     const token = JSON.parse(localStorage.getItem("applicantToken"));
-    axios
-      .post("/applicant/startQuiz", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        toast.success("started");
-        console.log(res);
-        navigate("/question", { state: res.data.data });
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    try {
+      // const solution = await axios.post(
+      //   "/applicant/startQuiz",
+      //   { job: id },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      // console.log(solution);
+      axios
+        .post(
+          "/applicant/startQuiz",
+          { job: job._id },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          toast.success("started");
+          console.log(res.data);
+          navigate("/question", { state: res.data.data });
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -34,7 +50,7 @@ const StartTest = ({ jobData }) => {
         <div className="test-job-info">
           <div className="job-type">Jobs</div>
           {jobData.map((job) => (
-            <div className="about-job-card">
+            <div className="about-job-card" key={job._id}>
               <div className="about-job-info">
                 <div className="heading-about-job">{job.title}</div>
                 <div className="job-description">{job.description}</div>
@@ -46,7 +62,7 @@ const StartTest = ({ jobData }) => {
                 {/* <div className="start-test-box"> */}
                 <button
                   className="start-test-button"
-                  onClick={() => startHandler(job._id)}
+                  onClick={() => startHandler(job)}
                 >
                   Start Test
                 </button>

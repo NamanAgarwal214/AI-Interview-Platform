@@ -21,7 +21,7 @@ const ApplicantPage = () => {
       job: applicant.job,
     });
   }, []);
-
+  console.log(applicantData);
   return (
     <div className="applicant-page">
       <SideNavbar person={"applicant"} />

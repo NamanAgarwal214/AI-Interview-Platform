@@ -19,7 +19,8 @@ import QuestionPage from "./components/QuestionPage";
 import ConfirmEmail from "./pages/ConfirmEmail";
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:8000";
+  axios.defaults.baseURL =
+    "https://a0ea-2401-4900-5d1f-a915-7d0f-1c28-814b-84d2.ngrok-free.app";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage["token"]);
   // useEffect(()=>{
