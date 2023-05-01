@@ -10,6 +10,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SideNavbar from "./SideNavbar";
+import { toast } from "react-toastify";
 
 const QuestionPage = () => {
   const { state } = useLocation();
@@ -31,11 +32,25 @@ const QuestionPage = () => {
   const submitHandler = async () => {
     const blob = await recordWebcam.getRecording();
     console.log(blob);
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(blob);
+    // reader.onloadend = () => {
+    //   if (reader.readyState == 2) {
+    //     const dataURL = reader.result;
+    //     // console.log(dataURL);
+    //     setUrl(reader.result);
+    //   }
+    //   // use the data URL to display or upload the video
+    // };
+
+    const newFile = new File([blob], "video-title.mp4", {
+      type: "video/mp4",
+    });
+    const reader = new FileReader(newFile);
+    reader.readAsDataURL(newFile);
     reader.onloadend = () => {
       if (reader.readyState == 2) {
-        // dataURL = reader.result;
+        const dataURL = reader.result;
         // console.log(dataURL);
         setUrl(reader.result);
       }
@@ -43,31 +58,38 @@ const QuestionPage = () => {
     };
 
     const token = JSON.parse(localStorage.getItem("applicantToken"));
-    console.log(url);
-    // console.log(url, state._id, state.questions[active]._id, blob.type);
-    axios
-      .post(
-        "/applicant/submitVideo",
-        {
-          solutionVideo: url,
-          solution: state._id,
-          question: state.questions[active]._id,
-          file_type: "video/mp4",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    setTimeout(() => {
+      axios
+        .post(
+          "/applicant/submitVideo",
+          {
+            solutionVideo: url,
+            solution: state._id,
+            question: state.questions[active]._id,
+            file_type: "video/mp4",
           },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message);
+          }
+
+          console.log(res);
+        });
+    }, 3500);
+    // console.log(url, state._id, state.questions[active]._id, blob.type);
   };
 
   const evaluateHander = async () => {
-    setActive(active + 1);
     recordWebcam.status = "CLOSED";
+    // if (active === state.questions.length - 1)
+    //   navigate("/applicant/dashboard", { state: { submit: true } });
+    // setActive(active + 1);
     axios
       .post("/applicant/evaluateScore", {
         solution: state._id,
@@ -76,6 +98,10 @@ const QuestionPage = () => {
       .then((evalRes) => {
         if (active === state.questions.length - 1)
           navigate("/applicant/dashboard", { state: { submit: true } });
+        if (evalRes.status === 200) {
+          setActive(active + 1);
+          toast.success(evalRes.data.message);
+        }
         console.log(evalRes);
       });
   };
@@ -213,6 +239,7 @@ const QuestionPage = () => {
                 className="button"
                 onClick={() => {
                   evaluateHander();
+                  // setActive(active + 1);
                   setNext(false);
                 }}
                 // onClick={() => {
@@ -221,7 +248,7 @@ const QuestionPage = () => {
                 // }}
                 style={{
                   display: `${
-                    active === state.questions.length - 1 ? "none" : "initial"
+                    active === state.questions.length ? "none" : "initial"
                   }`,
                 }}
               >
