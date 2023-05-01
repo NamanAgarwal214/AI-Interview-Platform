@@ -35,8 +35,8 @@ const QuestionPage = () => {
     reader.readAsDataURL(blob);
     reader.onloadend = () => {
       if (reader.readyState == 2) {
-        dataURL = reader.result;
-        console.log(dataURL);
+        // dataURL = reader.result;
+        // console.log(dataURL);
         setUrl(reader.result);
       }
       // use the data URL to display or upload the video
