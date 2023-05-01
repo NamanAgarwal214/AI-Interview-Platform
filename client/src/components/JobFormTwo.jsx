@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +13,7 @@ const JobFormTwo = ({
   applicants,
 }) => {
   const token = JSON.parse(localStorage.getItem("companyToken"));
+  const navigate = useNavigate();
 
   const uploadApplicants = async (id) => {
     try {
@@ -93,6 +95,7 @@ const JobFormTwo = ({
             toast.success(res.data.message);
             if (applicants.length > 0) uploadApplicants(res.data.data._id);
             if (questions.length > 0) uploadQuestion(res.data.data._id);
+            navigate("/company/dashboard");
           }
         })
         .catch((err) => {
